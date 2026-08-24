@@ -100,8 +100,24 @@ public class Play {
         return scene;
     }
 
+    // Check if any landed block is at the top
+    private boolean isTopBlocked() {
+        for (Rectangle r : landed) {
+            if (r.getY() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Spawn block
     private void spawnBlock(Pane playField, int cellSize, int fieldHeight) {
+
+        // Stop spawning if top is blocked
+        if (isTopBlocked()) {
+            System.out.println("Game Over");
+            return;
+        }
 
         dy = 0.15;
 
@@ -236,6 +252,7 @@ public class Play {
             newLocalY[i] = (width - 1) - localX[i];
         }
 
+        // Apply rotation
         for (int i = 0; i < 4; i++) {
             int newGX = minX + newLocalX[i];
             int newGY = minY + newLocalY[i];
