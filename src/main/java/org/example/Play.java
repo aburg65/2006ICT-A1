@@ -19,16 +19,15 @@ import java.util.List;
 
 public class Play {
 
-    // === FIELDS ===
+    // Fields
     private Rectangle[] currentBlock;
     private AnimationTimer fallTimer;
+    private double dy = 0.15;
 
-    private double dy = 0.15;   // default fall speed
-
-    // NEW: store landed squares
+    // Landed squares
     private final List<Rectangle> landed = new ArrayList<>();
 
-    // === MAIN SCENE CREATION ===
+    // Main scene
     public Scene getScene(Stage stage) {
 
         int cols = 10;
@@ -76,20 +75,16 @@ public class Play {
         root.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(root, Splash.windowWidth, Splash.windowHeight);
-        root.requestFocus(); // ensures key input works
+        root.requestFocus();
 
-        // === KEYBOARD MOVEMENT ===
+        // Keyboard input
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
 
                 case DOWN -> dy = 2.0;
-
                 case LEFT -> moveBlock(-cellSize, 0);
-
                 case RIGHT -> moveBlock(cellSize, 0);
-
                 case UP -> rotateBlock(currentBlock, cellSize);
-
                 default -> {}
             }
         });
@@ -105,10 +100,10 @@ public class Play {
         return scene;
     }
 
-    // === BLOCK SPAWNING AND FALLING ===
+    // Spawn block
     private void spawnBlock(Pane playField, int cellSize, int fieldHeight) {
 
-        dy = 0.15;   // reset fall speed for new block
+        dy = 0.15;
 
         int randomType = (int)(Math.random() * 7) + 1;
         currentBlock = Blocks.createBlock(randomType, cellSize);
@@ -121,29 +116,32 @@ public class Play {
             @Override
             public void handle(long now) {
 
-                // === FALLING WITH COLLISION ===
+                // Check landing
                 for (Rectangle r : currentBlock) {
-                    double nextY = r.getY() + dy;
 
-                    // floor collision
-                    if (nextY + cellSize > fieldHeight) {
+                    int gridX = (int)(r.getX() / cellSize);
+                    int gridY = (int)(r.getY() / cellSize);
+                    int belowY = gridY + 1;
+
+                    // Check floor
+                    if (belowY * cellSize >= fieldHeight) {
                         landBlock(playField, cellSize, fieldHeight);
                         return;
                     }
 
-                    // collision with landed squares
+                    // Check if cell below is occupied
                     for (Rectangle s : landed) {
-                        boolean sameColumn = r.getX() == s.getX();
-                        boolean touchingTop = nextY + cellSize > s.getY();
+                        int lx = (int)(s.getX() / cellSize);
+                        int ly = (int)(s.getY() / cellSize);
 
-                        if (sameColumn && touchingTop) {
+                        if (lx == gridX && ly == belowY) {
                             landBlock(playField, cellSize, fieldHeight);
                             return;
                         }
                     }
                 }
 
-                // apply fall
+                // Apply fall
                 for (Rectangle r : currentBlock) {
                     r.setY(r.getY() + dy);
                 }
@@ -153,31 +151,35 @@ public class Play {
         fallTimer.start();
     }
 
-    // === LAND BLOCK ===
+    // Land block
     private void landBlock(Pane playField, int cellSize, int fieldHeight) {
         fallTimer.stop();
 
-        // store squares
+        // Snap to grid
         for (Rectangle r : currentBlock) {
+            int gx = (int)(r.getX() / cellSize);
+            int gy = (int)(r.getY() / cellSize);
+            r.setX(gx * cellSize);
+            r.setY(gy * cellSize);
             landed.add(r);
         }
 
         spawnBlock(playField, cellSize, fieldHeight);
     }
 
-    // === MOVE BLOCK (one grid cell) ===
+    // Move block
     private void moveBlock(int dx, int dy) {
 
-        // boundary check
         for (Rectangle r : currentBlock) {
             double newX = r.getX() + dx;
+            double newY = r.getY() + dy;
 
+            // Check walls
             if (newX < 0 || newX + r.getWidth() > 150) {
                 return;
             }
 
-            // collision with landed squares
-            double newY = r.getY() + dy;
+            // Check collision with landed squares
             for (Rectangle s : landed) {
                 if (newX == s.getX() && newY == s.getY()) {
                     return;
@@ -185,16 +187,14 @@ public class Play {
             }
         }
 
-        // apply movement
+        // Apply movement
         for (Rectangle r : currentBlock) {
             r.setX(r.getX() + dx);
             r.setY(r.getY() + dy);
         }
     }
 
-    // ============================================================
-    //  ROTATE BLOCK AROUND TOP-LEFT OF ITS BOUNDING BOX
-    // ============================================================
+    // Rotate block
     public void rotateBlock(Rectangle[] squares, int cellSize) {
 
         int minX = Integer.MAX_VALUE;
@@ -205,6 +205,7 @@ public class Play {
         int[] gx = new int[4];
         int[] gy = new int[4];
 
+        // Get grid positions
         for (int i = 0; i < 4; i++) {
             gx[i] = (int) squares[i].getX() / cellSize;
             gy[i] = (int) squares[i].getY() / cellSize;
@@ -220,6 +221,7 @@ public class Play {
         int[] localX = new int[4];
         int[] localY = new int[4];
 
+        // Local coords
         for (int i = 0; i < 4; i++) {
             localX[i] = gx[i] - minX;
             localY[i] = gy[i] - minY;
@@ -228,6 +230,7 @@ public class Play {
         int[] newLocalX = new int[4];
         int[] newLocalY = new int[4];
 
+        // Rotate
         for (int i = 0; i < 4; i++) {
             newLocalX[i] = localY[i];
             newLocalY[i] = (width - 1) - localX[i];
