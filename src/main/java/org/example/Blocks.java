@@ -7,7 +7,6 @@ public class Blocks {
 
     private static Rectangle square(int x, int y, int cellSize, Color color) {
         Rectangle r = new Rectangle(cellSize, cellSize, color);
-        r.setStroke(Color.BLACK);
         r.setX(x * cellSize);
         r.setY(y * cellSize);
         return r;

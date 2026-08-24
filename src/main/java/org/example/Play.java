@@ -7,7 +7,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,19 +43,8 @@ public class Play {
         Rectangle background = new Rectangle(fieldWidth, fieldHeight);
         background.setFill(Color.LIGHTGRAY);
         background.setStroke(Color.BLACK);
-        background.setStrokeWidth(2);
+        background.setStrokeWidth(1);
         playField.getChildren().add(background);
-
-        for (int c = 0; c <= cols; c++) {
-            Line vLine = new Line(c * cellSize, 0, c * cellSize, fieldHeight);
-            vLine.setStroke(Color.GRAY);
-            playField.getChildren().add(vLine);
-        }
-        for (int r = 0; r <= rows; r++) {
-            Line hLine = new Line(0, r * cellSize, fieldWidth, r * cellSize);
-            hLine.setStroke(Color.GRAY);
-            playField.getChildren().add(hLine);
-        }
 
         StackPane playFieldWrapper = new StackPane(playField);
         playFieldWrapper.setAlignment(Pos.CENTER);
@@ -180,6 +168,9 @@ public class Play {
             landed.add(r);
         }
 
+        // 🔥 NEW: check for row clearing
+        checkAndClearRows(cellSize, playField);
+
         spawnBlock(playField, cellSize, fieldHeight);
     }
 
@@ -259,6 +250,47 @@ public class Play {
 
             squares[i].setX(newGX * cellSize);
             squares[i].setY(newGY * cellSize);
+        }
+    }
+
+    // 🔥 NEW: Row clearing logic
+    private void checkAndClearRows(int cellSize, Pane playField) {
+
+        int[] rowCount = new int[20];
+
+        // Count squares per row
+        for (Rectangle r : landed) {
+            int row = (int)(r.getY() / cellSize);
+            rowCount[row]++;
+        }
+
+        // Check each row
+        for (int row = 0; row < 20; row++) {
+
+            if (rowCount[row] == 10) { // FULL ROW
+
+                // Remove all squares in this row
+                List<Rectangle> toRemove = new ArrayList<>();
+                for (Rectangle r : landed) {
+                    int rRow = (int)(r.getY() / cellSize);
+                    if (rRow == row) {
+                        toRemove.add(r);
+                    }
+                }
+
+                for (Rectangle r : toRemove) {
+                    playField.getChildren().remove(r);
+                    landed.remove(r);
+                }
+
+                // Move all squares above down
+                for (Rectangle r : landed) {
+                    int rRow = (int)(r.getY() / cellSize);
+                    if (rRow < row) {
+                        r.setY(r.getY() + cellSize);
+                    }
+                }
+            }
         }
     }
 }
