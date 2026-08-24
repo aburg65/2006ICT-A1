@@ -75,10 +75,10 @@ public class Blocks {
     // Z-block
     public static Rectangle[] Z(int cellSize) {
         return new Rectangle[]{
+                square(3, 0, cellSize, Color.RED),
                 square(4, 0, cellSize, Color.RED),
-                square(5, 0, cellSize, Color.RED),
-                square(5, 1, cellSize, Color.RED),
-                square(6, 1, cellSize, Color.RED)
+                square(4, 1, cellSize, Color.RED),
+                square(5, 1, cellSize, Color.RED)
         };
     }
 
