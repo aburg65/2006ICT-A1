@@ -14,6 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Region;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Play {
 
     // === FIELDS ===
@@ -21,6 +24,9 @@ public class Play {
     private AnimationTimer fallTimer;
 
     private double dy = 0.15;   // default fall speed
+
+    // NEW: store landed squares
+    private final List<Rectangle> landed = new ArrayList<>();
 
     // === MAIN SCENE CREATION ===
     public Scene getScene(Stage stage) {
@@ -76,27 +82,15 @@ public class Play {
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
 
-                case DOWN -> {
-                    dy = 2.0;
-                    System.out.println("Pressed: DOWN");
-                }
+                case DOWN -> dy = 2.0;
 
-                case LEFT -> {
-                    moveBlock(-cellSize, 0);
-                    System.out.println("Pressed: LEFT");
-                }
+                case LEFT -> moveBlock(-cellSize, 0);
 
-                case RIGHT -> {
-                    moveBlock(cellSize, 0);
-                    System.out.println("Pressed: RIGHT");
-                }
+                case RIGHT -> moveBlock(cellSize, 0);
 
-                case UP -> {
-                    rotateBlock(currentBlock, cellSize);   // ROTATION ADDED HERE
-                    System.out.println("Pressed: UP (ROTATE)");
-                }
+                case UP -> rotateBlock(currentBlock, cellSize);
 
-                default -> System.out.println("Pressed: " + e.getCode());
+                default -> {}
             }
         });
 
@@ -104,7 +98,6 @@ public class Play {
             if (e.getCode() == javafx.scene.input.KeyCode.DOWN) {
                 dy = 0.15;
             }
-            System.out.println("Released: " + e.getCode());
         });
 
         spawnBlock(playField, cellSize, fieldHeight);
@@ -128,22 +121,48 @@ public class Play {
             @Override
             public void handle(long now) {
 
-                // === FALLING ===
+                // === FALLING WITH COLLISION ===
                 for (Rectangle r : currentBlock) {
                     double nextY = r.getY() + dy;
 
+                    // floor collision
                     if (nextY + cellSize > fieldHeight) {
-                        this.stop();
-                        spawnBlock(playField, cellSize, fieldHeight);
+                        landBlock(playField, cellSize, fieldHeight);
                         return;
                     }
 
-                    r.setY(nextY);
+                    // collision with landed squares
+                    for (Rectangle s : landed) {
+                        boolean sameColumn = r.getX() == s.getX();
+                        boolean touchingTop = nextY + cellSize > s.getY();
+
+                        if (sameColumn && touchingTop) {
+                            landBlock(playField, cellSize, fieldHeight);
+                            return;
+                        }
+                    }
+                }
+
+                // apply fall
+                for (Rectangle r : currentBlock) {
+                    r.setY(r.getY() + dy);
                 }
             }
         };
 
         fallTimer.start();
+    }
+
+    // === LAND BLOCK ===
+    private void landBlock(Pane playField, int cellSize, int fieldHeight) {
+        fallTimer.stop();
+
+        // store squares
+        for (Rectangle r : currentBlock) {
+            landed.add(r);
+        }
+
+        spawnBlock(playField, cellSize, fieldHeight);
     }
 
     // === MOVE BLOCK (one grid cell) ===
@@ -154,7 +173,15 @@ public class Play {
             double newX = r.getX() + dx;
 
             if (newX < 0 || newX + r.getWidth() > 150) {
-                return; // cancel movement
+                return;
+            }
+
+            // collision with landed squares
+            double newY = r.getY() + dy;
+            for (Rectangle s : landed) {
+                if (newX == s.getX() && newY == s.getY()) {
+                    return;
+                }
             }
         }
 
