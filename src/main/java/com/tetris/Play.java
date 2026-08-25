@@ -1,4 +1,4 @@
-package org.example;
+package com.tetris;
 
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
@@ -18,7 +18,6 @@ import java.util.List;
 
 public class Play {
 
-    // Fields
     private Rectangle[] currentBlock;
     private AnimationTimer fallTimer;
     private double dy = 0.15;
@@ -30,10 +29,8 @@ public class Play {
     private Label pauseLabel;
     private StackPane backPromptOverlay;
 
-    // Landed squares
     private final List<Rectangle> landed = new ArrayList<>();
 
-    // Main scene
     public Scene getScene(Stage stage) {
 
         int cols = 10;
@@ -56,7 +53,6 @@ public class Play {
         StackPane playFieldWrapper = new StackPane(playField);
         playFieldWrapper.setAlignment(Pos.CENTER);
 
-        // Pause label overlay
         pauseLabel = new Label("Game is paused,\npress P to continue.");
         pauseLabel.setStyle("-fx-font-size: 15px;");
         pauseLabel.setTextFill(Color.BLACK);
@@ -64,7 +60,6 @@ public class Play {
         playFieldWrapper.getChildren().add(pauseLabel);
         StackPane.setAlignment(pauseLabel, Pos.CENTER);
 
-        // Back prompt overlay
         Label promptText = new Label("Are you sure?");
         promptText.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 
@@ -125,7 +120,6 @@ public class Play {
         Scene scene = new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
         root.requestFocus();
 
-        // Keyboard input
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
 
@@ -186,7 +180,7 @@ public class Play {
 
         dy = 0.15;
 
-        int randomType = (int)(Math.random() * 7) + 1;
+        int randomType = (int)(Math.random() * 7) + 1; //1;
         currentBlock = Blocks.createBlock(randomType, cellSize).getSquares();
 
         for (Rectangle r : currentBlock) {
@@ -290,6 +284,7 @@ public class Play {
         }
 
         int width = (maxX - minX) + 1;
+        int height = (maxY - minY) + 1;
 
         int[] localX = new int[4];
         int[] localY = new int[4];
@@ -303,8 +298,8 @@ public class Play {
         int[] newLocalY = new int[4];
 
         for (int i = 0; i < 4; i++) {
-            newLocalX[i] = localY[i];
-            newLocalY[i] = (width - 1) - localX[i];
+            newLocalX[i] = (height - 1) - localY[i];
+            newLocalY[i] = localX[i];
         }
 
         for (int i = 0; i < 4; i++) {

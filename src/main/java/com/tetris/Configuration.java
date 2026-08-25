@@ -1,4 +1,4 @@
-package org.example;
+package com.tetris;
 
 import javafx.geometry.Pos;
 import javafx.geometry.HPos;
