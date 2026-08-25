@@ -1,4 +1,4 @@
-package org.example;
+package com.tetris;
 
 import javafx.geometry.Pos;
 import javafx.geometry.HPos;
@@ -136,6 +136,6 @@ public class Configuration {
         root.setAlignment(Pos.CENTER);
 
 
-        return new Scene(root, Splash.windowWidth, Splash.windowHeight);
+        return new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
     }
 }
