@@ -58,7 +58,7 @@ public class Play {
 
         // Pause label overlay
         pauseLabel = new Label("Game is paused,\npress P to continue.");
-        pauseLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        pauseLabel.setStyle("-fx-font-size: 15px;");
         pauseLabel.setTextFill(Color.BLACK);
         pauseLabel.setVisible(false);
         playFieldWrapper.getChildren().add(pauseLabel);
@@ -187,7 +187,7 @@ public class Play {
         dy = 0.15;
 
         int randomType = (int)(Math.random() * 7) + 1;
-        currentBlock = Blocks.createBlock(randomType, cellSize);
+        currentBlock = Blocks.createBlock(randomType, cellSize).getSquares();
 
         for (Rectangle r : currentBlock) {
             playField.getChildren().add(r);

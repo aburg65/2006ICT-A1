@@ -3,97 +3,174 @@ package org.example;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Blocks {
+public abstract class Blocks {
 
-    //Single square cell
-    private static Rectangle square(int x, int y, int cellSize, Color color) {
+    protected Rectangle[] squares;
+
+    // Shared helper for all blocks
+    protected Rectangle square(int x, int y, int cellSize, Color color) {
         Rectangle r = new Rectangle(cellSize, cellSize, color);
         r.setX(x * cellSize);
         r.setY(y * cellSize);
         return r;
     }
 
-    // I-block
-    public static Rectangle[] I(int cellSize) {
-        return new Rectangle[]{
-                square(3, 0, cellSize, Color.CYAN),
-                square(4, 0, cellSize, Color.CYAN),
-                square(5, 0, cellSize, Color.CYAN),
-                square(6, 0, cellSize, Color.CYAN)
-        };
+    public Rectangle[] getSquares() {
+        return squares;
     }
 
-    // J-block
-    public static Rectangle[] J(int cellSize) {
-        return new Rectangle[]{
-                square(3, 0, cellSize, Color.BLUE),
-                square(4, 0, cellSize, Color.BLUE),
-                square(5, 0, cellSize, Color.BLUE),
-                square(3, 1, cellSize, Color.BLUE)
-        };
+    // Interfaces
+    public interface Movable {
+        void move(int dx, int dy);
     }
 
-    // L-block
-    public static Rectangle[] L(int cellSize) {
-        return new Rectangle[]{
-                square(3, 0, cellSize, Color.ORANGE),
-                square(4, 0, cellSize, Color.ORANGE),
-                square(5, 0, cellSize, Color.ORANGE),
-                square(5, 1, cellSize, Color.ORANGE)
-        };
+    public interface Rotatable {
+        void rotate();
     }
 
-    // O-block
-    public static Rectangle[] O(int cellSize) {
-        return new Rectangle[]{
-                square(4, 0, cellSize, Color.YELLOW),
-                square(5, 0, cellSize, Color.YELLOW),
-                square(4, 1, cellSize, Color.YELLOW),
-                square(5, 1, cellSize, Color.YELLOW)
-        };
-    }
-
-    // S-block
-    public static Rectangle[] S(int cellSize) {
-        return new Rectangle[]{
-                square(4, 0, cellSize, Color.GREEN),
-                square(5, 0, cellSize, Color.GREEN),
-                square(3, 1, cellSize, Color.GREEN),
-                square(4, 1, cellSize, Color.GREEN)
-        };
-    }
-
-    // T-block
-    public static Rectangle[] T(int cellSize) {
-        return new Rectangle[]{
-                square(3, 0, cellSize, Color.PURPLE),
-                square(4, 0, cellSize, Color.PURPLE),
-                square(5, 0, cellSize, Color.PURPLE),
-                square(4, 1, cellSize, Color.PURPLE)
-        };
-    }
-
-    // Z-block
-    public static Rectangle[] Z(int cellSize) {
-        return new Rectangle[]{
-                square(3, 0, cellSize, Color.RED),
-                square(4, 0, cellSize, Color.RED),
-                square(4, 1, cellSize, Color.RED),
-                square(5, 1, cellSize, Color.RED)
-        };
-    }
-
-    // Random block selector
-    public static Rectangle[] createBlock(int type, int cellSize) {
+    // Factory method
+    public static Blocks createBlock(int type, int cellSize) {
         return switch (type) {
-            case 1 -> I(cellSize);
-            case 2 -> J(cellSize);
-            case 3 -> L(cellSize);
-            case 4 -> O(cellSize);
-            case 5 -> S(cellSize);
-            case 6 -> T(cellSize);
-            case 7 -> Z(cellSize);
-            default -> I(cellSize);
+            case 1 -> new IBlock(cellSize);
+            case 2 -> new JBlock(cellSize);
+            case 3 -> new LBlock(cellSize);
+            case 4 -> new OBlock(cellSize);
+            case 5 -> new SBlock(cellSize);
+            case 6 -> new TBlock(cellSize);
+            case 7 -> new ZBlock(cellSize);
+            default -> new IBlock(cellSize);
         };
+    }
+
+    // Subclasses
+
+    public static class IBlock extends Blocks implements Movable, Rotatable {
+        public IBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(3, 0, cellSize, Color.CYAN),
+                    square(4, 0, cellSize, Color.CYAN),
+                    square(5, 0, cellSize, Color.CYAN),
+                    square(6, 0, cellSize, Color.CYAN)
+            };
+        }
+
+        @Override
+        public void move(int dx, int dy) {
+            for (Rectangle r : squares) {
+                r.setX(r.getX() + dx);
+                r.setY(r.getY() + dy);
+            }
+        }
+
+        @Override
+        public void rotate() {
+            // Rotation logic can be added later
+        }
+    }
+
+    public static class JBlock extends Blocks implements Movable {
+        public JBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(3, 0, cellSize, Color.BLUE),
+                    square(4, 0, cellSize, Color.BLUE),
+                    square(5, 0, cellSize, Color.BLUE),
+                    square(3, 1, cellSize, Color.BLUE)
+            };
+        }
+
+        @Override
+        public void move(int dx, int dy) {
+            for (Rectangle r : squares) {
+                r.setX(r.getX() + dx);
+                r.setY(r.getY() + dy);
+            }
+        }
+    }
+
+    public static class LBlock extends Blocks implements Movable {
+        public LBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(3, 0, cellSize, Color.ORANGE),
+                    square(4, 0, cellSize, Color.ORANGE),
+                    square(5, 0, cellSize, Color.ORANGE),
+                    square(5, 1, cellSize, Color.ORANGE)
+            };
+        }
+
+        @Override
+        public void move(int dx, int dy) {
+            for (Rectangle r : squares) {
+                r.setX(r.getX() + dx);
+                r.setY(r.getY() + dy);
+            }
+        }
+    }
+
+    public static class OBlock extends Blocks {
+        public OBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(4, 0, cellSize, Color.YELLOW),
+                    square(5, 0, cellSize, Color.YELLOW),
+                    square(4, 1, cellSize, Color.YELLOW),
+                    square(5, 1, cellSize, Color.YELLOW)
+            };
+        }
+    }
+
+    public static class SBlock extends Blocks implements Movable {
+        public SBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(4, 0, cellSize, Color.GREEN),
+                    square(5, 0, cellSize, Color.GREEN),
+                    square(3, 1, cellSize, Color.GREEN),
+                    square(4, 1, cellSize, Color.GREEN)
+            };
+        }
+
+        @Override
+        public void move(int dx, int dy) {
+            for (Rectangle r : squares) {
+                r.setX(r.getX() + dx);
+                r.setY(r.getY() + dy);
+            }
+        }
+    }
+
+    public static class TBlock extends Blocks implements Movable {
+        public TBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(3, 0, cellSize, Color.PURPLE),
+                    square(4, 0, cellSize, Color.PURPLE),
+                    square(5, 0, cellSize, Color.PURPLE),
+                    square(4, 1, cellSize, Color.PURPLE)
+            };
+        }
+
+        @Override
+        public void move(int dx, int dy) {
+            for (Rectangle r : squares) {
+                r.setX(r.getX() + dx);
+                r.setY(r.getY() + dy);
+            }
+        }
+    }
+
+    public static class ZBlock extends Blocks implements Movable {
+        public ZBlock(int cellSize) {
+            squares = new Rectangle[]{
+                    square(3, 0, cellSize, Color.RED),
+                    square(4, 0, cellSize, Color.RED),
+                    square(4, 1, cellSize, Color.RED),
+                    square(5, 1, cellSize, Color.RED)
+            };
+        }
+
+        @Override
+        public void move(int dx, int dy) {
+            for (Rectangle r : squares) {
+                r.setX(r.getX() + dx);
+                r.setY(r.getY() + dy);
+            }
+        }
     }
 }

@@ -30,14 +30,14 @@ public class Splash extends Application {
         // Create the splash stage
         Stage splashStage = new Stage(StageStyle.UNDECORATED); // No window border
         // Splash content (e.g. an image + loading text)
-        ImageView splashImage = new ImageView(new Image(getClass().getResource("/oldManBailey.jpg").toExternalForm()));
-        splashImage.setFitWidth(300); // Set desired width
-        splashImage.setFitHeight(300); // Set desired height
-        splashImage.setPreserveRatio(true); // Maintain aspect ratio
+        ImageView splashImage = new ImageView(new Image(getClass().getResource("/splash-screen.png").toExternalForm()));
+        splashImage.setFitWidth(400); // Set desired width
+        splashImage.setFitHeight(600); // Set desired height
         splashImage.setSmooth(true); // Optional: smooth scaling
-        Label loadingLabel = new Label("Loading, please wait...");
+        Label loadingLabel = new Label("\n \n 2006ICT - OOSD \n Group: PG22 \n Ashley Burgoyne");
+        loadingLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;");
         StackPane splashLayout = new StackPane(splashImage, loadingLabel);
-        Scene splashScene = new Scene(splashLayout, 300, 300); // Adjust size as needed
+        Scene splashScene = new Scene(splashLayout, 400, 600); // Adjust size as needed
         splashStage.setScene(splashScene);
         splashStage.show();
 
