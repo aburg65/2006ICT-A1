@@ -5,6 +5,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Blocks {
 
+    //Single square cell
     private static Rectangle square(int x, int y, int cellSize, Color color) {
         Rectangle r = new Rectangle(cellSize, cellSize, color);
         r.setX(x * cellSize);
@@ -82,7 +83,7 @@ public class Blocks {
         };
     }
 
-    // === RANDOM BLOCK CREATOR ===
+    // Random block selector
     public static Rectangle[] createBlock(int type, int cellSize) {
         return switch (type) {
             case 1 -> I(cellSize);

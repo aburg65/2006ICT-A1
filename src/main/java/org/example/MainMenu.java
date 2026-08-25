@@ -10,70 +10,68 @@ import javafx.stage.Stage;
 
 public class MainMenu {
 
-    private StackPane exitPromptOverlay;
+    //Global window size
+    public static int windowWidth = 800;
+    public static int windowHeight = 700;
+
+    private StackPane exitPromptOverlay; //Declare overlay
 
     public Scene getScene(Stage stage) {
 
+        //Heading and buttons
         Label title = new Label("MAIN MENU");
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 36px;");
-
         Button playBtn = new Button("Play");
         Button configBtn = new Button("Configuration");
         Button hiScoBtn = new Button("High Scores");
         Button exitBtn = new Button("Exit");
+        Label promptText = new Label("Are you sure?");
+        promptText.setStyle("-fx-font-size: 30px; -fx-font-weight: bold;");
+        Button yesBtn = new Button("Yes");
+        yesBtn.setStyle("-fx-font-size: 16px;");
+        Button noBtn = new Button("No");
+        noBtn.setStyle("-fx-font-size: 16px;");
 
+        //Button actions
         playBtn.setOnAction(e -> {
-            Play play = new Play();
-            stage.setScene(play.getScene(stage));
+            Play playScene = new Play();
+            stage.setScene(playScene.getScene(stage));
         });
-
         configBtn.setOnAction(e -> {
-            Configuration config = new Configuration();
-            stage.setScene(config.getScene(stage));
+            Configuration configurationScene = new Configuration();
+            stage.setScene(configurationScene.getScene(stage));
         });
-
         hiScoBtn.setOnAction(e -> {
-            HighScores high = new HighScores();
-            stage.setScene(high.getScene(stage));
+            HighScores highScoresScene = new HighScores();
+            stage.setScene(highScoresScene.getScene(stage));
         });
-
         exitBtn.setOnAction(e -> {
             exitPromptOverlay.setVisible(true);
             exitPromptOverlay.setMouseTransparent(false);
         });
-
-        VBox root = new VBox(20, title, playBtn, configBtn, hiScoBtn, exitBtn);
-        root.setAlignment(Pos.CENTER);
-
-        StackPane wrapper = new StackPane(root);
-
-        Label promptText = new Label("Are you sure?");
-        promptText.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
-
-        Button yesButton = new Button("Yes");
-        yesButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        yesButton.setOnAction(e -> {
+        yesBtn.setOnAction(e -> {
             stage.close();
         });
-
-        Button noButton = new Button("No");
-        noButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        noButton.setOnAction(e -> {
+        noBtn.setOnAction(e -> {
             exitPromptOverlay.setVisible(false);
             exitPromptOverlay.setMouseTransparent(true);
         });
 
-        VBox promptBox = new VBox(20, promptText, yesButton, noButton);
+        //Layout
+        VBox promptBox = new VBox(20, promptText, yesBtn, noBtn);
         promptBox.setAlignment(Pos.CENTER);
         promptBox.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-padding: 20px;");
 
+        VBox menuLayout = new VBox(20, title, playBtn, configBtn, hiScoBtn, exitBtn);
+        menuLayout.setAlignment(Pos.CENTER);
+
+        //Implement exit prompt
         exitPromptOverlay = new StackPane(promptBox);
-        exitPromptOverlay.setAlignment(Pos.CENTER);
         exitPromptOverlay.setVisible(false);
         exitPromptOverlay.setMouseTransparent(true);
 
-        wrapper.getChildren().add(exitPromptOverlay);
+        StackPane wrapper = new StackPane(menuLayout, exitPromptOverlay);
 
-        return new Scene(wrapper, Splash.windowWidth, Splash.windowHeight);
+        return new Scene(wrapper, windowWidth, windowHeight);
     }
 }

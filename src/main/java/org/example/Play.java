@@ -122,7 +122,7 @@ public class Play {
         VBox root = new VBox(20, playTitle, playFieldWrapper, backButton);
         root.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(root, Splash.windowWidth, Splash.windowHeight);
+        Scene scene = new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
         root.requestFocus();
 
         // Keyboard input

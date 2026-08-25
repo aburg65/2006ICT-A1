@@ -7,51 +7,61 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HighScores {
 
     public Scene getScene(Stage stage) {
 
+        // Read players from Leaderboard
+        Leaderboard.Player[] players = Leaderboard.getPlayers();
+
+        // Containers
+        VBox root = new VBox(20);
+        root.setAlignment(Pos.CENTER);
+
+        VBox scoreBox = new VBox(10);
+        scoreBox.setAlignment(Pos.CENTER);
+
+        HBox headers = new HBox(50);
+        headers.setAlignment(Pos.CENTER);
+
+        double colWidth = 200;
+
         // Title
         Label title = new Label("High Scores");
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 28px;");
 
-        // Dummy data
-        List<HighScore> scores = new ArrayList<>();
-        scores.add(new HighScore("Jake", 2000));
-        scores.add(new HighScore("Sarah", 1500));
-        scores.add(new HighScore("Tom", 900));
-        scores.add(new HighScore("Mia", 750));
-        scores.add(new HighScore("Alex", 500));
-
-        // Header row
-        HBox header = new HBox(50); // spacing between columns
-        header.setAlignment(Pos.CENTER);
+        // Header labels
         Label nameHeader = new Label("Name");
         nameHeader.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
-        Label pointsHeader = new Label("Points");
-        pointsHeader.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
-        header.getChildren().addAll(nameHeader, pointsHeader);
+        nameHeader.setPrefWidth(colWidth);
+        nameHeader.setAlignment(Pos.CENTER);
 
-        VBox scoreBox = new VBox(10);
-        scoreBox.setAlignment(Pos.CENTER);
-        scoreBox.getChildren().add(header);
+        Label scoreHeader = new Label("Score");
+        scoreHeader.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
+        scoreHeader.setPrefWidth(colWidth);
+        scoreHeader.setAlignment(Pos.CENTER);
 
-        // Enhanced for loop
-        for (HighScore hs : scores) {
+        headers.getChildren().addAll(nameHeader, scoreHeader);
+        scoreBox.getChildren().add(headers);
 
-            HBox row = new HBox(50); // same spacing as header
+        // Rows
+        for (Leaderboard.Player entry : players) {
+
+            HBox row = new HBox(50);
             row.setAlignment(Pos.CENTER);
 
-            Label name = new Label(hs.name());
+            Label name = new Label(entry.name());
             name.setStyle("-fx-font-size: 16px;");
+            name.setPrefWidth(colWidth);
+            name.setAlignment(Pos.CENTER);
 
-            Label points = new Label(String.valueOf(hs.points()));
-            points.setStyle("-fx-font-size: 16px;");
+            Label score = new Label(String.valueOf(entry.score()));
+            score.setStyle("-fx-font-size: 16px;");
+            score.setPrefWidth(colWidth);
+            score.setAlignment(Pos.CENTER);
 
-            row.getChildren().addAll(name, points);
+            row.getChildren().addAll(name, score);
             scoreBox.getChildren().add(row);
         }
 
@@ -63,10 +73,8 @@ public class HighScores {
             stage.setScene(menu.getScene(stage));
         });
 
-        // Root layout
-        VBox root = new VBox(20, title, scoreBox, backButton);
-        root.setAlignment(Pos.CENTER);
+        root.getChildren().addAll(title, scoreBox, backButton);
 
-        return new Scene(root, Splash.windowWidth, Splash.windowHeight);
+        return new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
     }
 }
