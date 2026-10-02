@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 public class Configuration {
 
     boolean extendOn;
-    public int fieldWidth;
-    public int fieldHeight;
+    public static int horGridCells;
+    public static int verGridCells;
     public int initialLevel;
 
     public Scene getScene(Stage stage) {
@@ -32,8 +32,8 @@ public class Configuration {
         fieldWSlider.setPrefWidth(300);
         fieldWSlider.setSnapToTicks(true);
         fieldWSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            fieldWidth = newVal.intValue();
-            System.out.println("Field Width (No of cells): " + fieldWidth);
+            horGridCells = newVal.intValue();
+            System.out.println("Field Width (No of cells): " + horGridCells);
         });
 
 
@@ -45,8 +45,8 @@ public class Configuration {
         fieldHSlider.setPrefWidth(300);
         fieldHSlider.setSnapToTicks(true);
         fieldHSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
-            fieldHeight = newVal.intValue();
-            System.out.println("Field Height (No of cells): " + fieldHeight);
+            verGridCells = newVal.intValue();
+            System.out.println("Field Height (No of cells): " + verGridCells);
         });
 
         Slider levelSlider = new Slider(1, 10, 1);
