@@ -3,18 +3,17 @@ package com.tetris;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.Region;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static javafx.geometry.Pos.CENTER;
 
 public class Play {
 
@@ -33,12 +32,13 @@ public class Play {
 
     public Scene getScene(Stage stage) {
 
-        int cols = 10;
-        int rows = 20;
+        int cols = 15;
+        int rows = 30;
         int cellSize = 15;
         int fieldWidth = cols * cellSize;
         int fieldHeight = rows * cellSize;
 
+        // Game playfield
         Pane playField = new Pane();
         playField.setPrefSize(fieldWidth, fieldHeight);
         playField.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -49,16 +49,6 @@ public class Play {
         background.setStroke(Color.BLACK);
         background.setStrokeWidth(1);
         playField.getChildren().add(background);
-
-        StackPane playFieldWrapper = new StackPane(playField);
-        playFieldWrapper.setAlignment(Pos.CENTER);
-
-        pauseLabel = new Label("Game is paused,\npress P to continue.");
-        pauseLabel.setStyle("-fx-font-size: 15px;");
-        pauseLabel.setTextFill(Color.BLACK);
-        pauseLabel.setVisible(false);
-        playFieldWrapper.getChildren().add(pauseLabel);
-        StackPane.setAlignment(pauseLabel, Pos.CENTER);
 
         Label promptText = new Label("Are you sure?");
         promptText.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
@@ -84,14 +74,12 @@ public class Play {
         });
 
         VBox promptBox = new VBox(20, promptText, yesButton, noButton);
-        promptBox.setAlignment(Pos.CENTER);
+        promptBox.setAlignment(CENTER);
         promptBox.setStyle("-fx-background-color: rgba(255,255,255,0.9); -fx-padding: 20px;");
 
         backPromptOverlay = new StackPane(promptBox);
-        backPromptOverlay.setAlignment(Pos.CENTER);
+        backPromptOverlay.setAlignment(CENTER);
         backPromptOverlay.setVisible(false);
-
-        playFieldWrapper.getChildren().add(backPromptOverlay);
 
         Label playTitle = new Label("Play");
         playTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 28px;");
@@ -114,11 +102,49 @@ public class Play {
             backPromptOverlay.setVisible(true);
         });
 
-        VBox root = new VBox(20, playTitle, playFieldWrapper, backButton);
-        root.setAlignment(Pos.CENTER);
+        // Create scene
+        StackPane playFieldWrapper = new StackPane(playField);
 
-        Scene scene = new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
-        root.requestFocus();
+        pauseLabel = new Label("Game is paused,\npress P to continue.");
+        pauseLabel.setStyle("-fx-font-size: 15px;");
+        pauseLabel.setTextFill(Color.BLACK);
+        pauseLabel.setVisible(false);
+        pauseLabel.setAlignment(CENTER);
+        playFieldWrapper.getChildren().add(pauseLabel);
+        playFieldWrapper.getChildren().add(backPromptOverlay);
+
+        Label playerNumber = new Label("Game Info (Player 1)");
+        playerNumber.setStyle("-fx-font-weight: bold;");
+        Label playerType = new Label("Player Type: " + "Configuration.playerType");
+        playerType.setStyle("-fx-font-weight: bold;");
+        Label initialLevel = new Label("Initial Leve: " + "Configuration.initialLevel");
+        initialLevel.setStyle("-fx-font-weight: bold;");
+        Label currentLevel = new Label("Current Level: " + "currentLevel");
+        currentLevel.setStyle("-fx-font-weight: bold;");
+        Label lineErased = new Label("Lines Erased: " + "linesErased");
+        lineErased.setStyle("-fx-font-weight: bold;");
+        Label score = new Label("Score: " + "score");
+        score.setStyle("-fx-font-weight: bold;");
+        Label nextTet = new Label("Next Tetromino:");
+        nextTet.setStyle("-fx-font-weight: bold;");
+        StackPane tetrom = new StackPane(nextTet);
+        tetrom.setStyle("-fx-border-color: black; -fx-border-width: 0.5px; -fx-padding: 15px;");
+
+
+        VBox gameInfo = new VBox(12, playerNumber, playerType, initialLevel, currentLevel, lineErased, score, nextTet, tetrom);
+        gameInfo.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
+        gameInfo.setAlignment(CENTER);
+
+        HBox infoAndGame = new HBox(20, gameInfo, playFieldWrapper);
+        infoAndGame.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
+        infoAndGame.setAlignment(CENTER);
+        infoAndGame.setMaxWidth(Region.USE_PREF_SIZE);
+
+        VBox wholeScene = new VBox(20, playTitle, infoAndGame, backButton);
+        wholeScene.setAlignment(CENTER);
+
+        Scene scene = new Scene(wholeScene, MainMenu.windowWidth, MainMenu.windowHeight);
+        wholeScene.requestFocus();
 
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
