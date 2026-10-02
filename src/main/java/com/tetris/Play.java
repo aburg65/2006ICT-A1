@@ -1,7 +1,6 @@
 package com.tetris;
 
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,6 +17,9 @@ import static javafx.geometry.Pos.CENTER;
 public class Play {
 
     private Rectangle[] currentBlock;
+    private int nextBlock;
+    private StackPane nextPreviewPane;
+
     private AnimationTimer fallTimer;
     private double dy = 0.15;
 
@@ -32,8 +34,8 @@ public class Play {
 
     public Scene getScene(Stage stage) {
 
-        int cols = 15;
-        int rows = 30;
+        int cols = 10;
+        int rows = 20;
         int cellSize = 15;
         int fieldWidth = cols * cellSize;
         int fieldHeight = rows * cellSize;
@@ -127,11 +129,13 @@ public class Play {
         score.setStyle("-fx-font-weight: bold;");
         Label nextTet = new Label("Next Tetromino:");
         nextTet.setStyle("-fx-font-weight: bold;");
-        StackPane tetrom = new StackPane(nextTet);
-        tetrom.setStyle("-fx-border-color: black; -fx-border-width: 0.5px; -fx-padding: 15px;");
+        nextPreviewPane = new StackPane();
+        nextPreviewPane.setMaxWidth(60);
+        nextPreviewPane.setMinHeight(40);
+        nextPreviewPane.setStyle("-fx-border-color: black; -fx-border-width: 0.5px; -fx-padding: 15px;");
 
 
-        VBox gameInfo = new VBox(12, playerNumber, playerType, initialLevel, currentLevel, lineErased, score, nextTet, tetrom);
+        VBox gameInfo = new VBox(12, playerNumber, playerType, initialLevel, currentLevel, lineErased, score, nextTet, nextPreviewPane);
         gameInfo.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
         gameInfo.setAlignment(CENTER);
 
@@ -170,7 +174,10 @@ public class Play {
             }
         });
 
+        nextBlock = generateNextBlock();
+        updateNextPreview(nextPreviewPane, nextBlock, cellSize);
         spawnBlock(playField, cellSize, fieldHeight);
+
 
         return scene;
     }
@@ -196,6 +203,30 @@ public class Play {
         return false;
     }
 
+    private int generateNextBlock() {
+        int n = (int)(Math.random() * 7) + 1;
+        System.out.println("Next block decided: " + n);  // PRINT HERE
+        return n;
+    }
+
+    private void updateNextPreview(StackPane previewPane, int nextBlock, int cellSize) {
+
+        previewPane.getChildren().clear();
+
+        // Create the block
+        Blocks block = Blocks.createBlock(nextBlock, cellSize);
+        Rectangle[] squares = block.getSquares();
+
+        // Center the preview block inside the preview pane
+        for (Rectangle r : squares) {
+            r.setX(r.getX() - 45);  // shift left
+            r.setY(r.getY() + 10);  // shift down
+        }
+
+        previewPane.getChildren().addAll(squares);
+    }
+
+
     private void spawnBlock(Pane playField, int cellSize, int fieldHeight) {
 
         if (isTopBlocked()) {
@@ -206,8 +237,12 @@ public class Play {
 
         dy = 0.15;
 
-        int randomType = (int)(Math.random() * 7) + 1; //1;
-        currentBlock = Blocks.createBlock(randomType, cellSize).getSquares();
+        int blockType = nextBlock;          // use the pre-selected block
+        nextBlock = generateNextBlock();
+        updateNextPreview(nextPreviewPane, nextBlock, cellSize);
+
+
+        currentBlock = Blocks.createBlock(blockType, cellSize).getSquares();
 
         for (Rectangle r : currentBlock) {
             playField.getChildren().add(r);
