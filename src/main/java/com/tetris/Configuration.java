@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 public class Configuration {
 
+    boolean extendOn;
+
     public Scene getScene(Stage stage) {
 
         // Title
@@ -52,24 +54,62 @@ public class Configuration {
                 System.out.println("Game Level: " + newVal.intValue())
         );
 
+        // Player 1 Radio Buttons
+        RadioButton p1HumanType = new RadioButton("Human");
+        RadioButton p1AIType = new RadioButton("AI");
+        RadioButton p1ExternalType = new RadioButton("External");
+
+        // Player 2 Radio Buttons
+        RadioButton p2HumanType = new RadioButton("Human");
+        RadioButton p2AIType = new RadioButton("AI");
+        RadioButton p2ExternalType = new RadioButton("External");
+
+        // Disable player buttons by default because
+        p2HumanType.setDisable(true);
+        p2AIType.setDisable(true);
+        p2ExternalType.setDisable(true);
+
+
         // CheckBoxes
         CheckBox musicCheckBox = new CheckBox();
         musicCheckBox.setSelected(true);
-        musicCheckBox.setOnAction(e ->
-                System.out.println("Music: " + (musicCheckBox.isSelected() ? "On" : "Off"))
-        );
+        musicCheckBox.setOnAction(e -> {
+            if (musicCheckBox.isSelected()) {
+                System.out.println("Music: On");
+            } else {
+                System.out.println("Music: Off");
+            }
+        });
 
         CheckBox soundCheckBox = new CheckBox();
         soundCheckBox.setSelected(true);
-        soundCheckBox.setOnAction(e ->
-                System.out.println("Sound Effect: " + (soundCheckBox.isSelected() ? "On" : "Off"))
-        );
+        soundCheckBox.setOnAction(e -> {
+            if (soundCheckBox.isSelected()) {
+                System.out.println("Sound Effects: On");
+            } else {
+                System.out.println("Sound Effects: Off");
+            }
+        });
 
         CheckBox extendCheckBox = new CheckBox();
         extendCheckBox.setSelected(false);
-        extendCheckBox.setOnAction(e ->
-                System.out.println("Extend Mode: " + (extendCheckBox.isSelected() ? "On" : "Off"))
-        );
+
+        extendCheckBox.setOnAction(e -> {
+            extendOn = extendCheckBox.isSelected();
+
+            if (extendOn) {
+                System.out.println("Extend Mode: On");
+            } else {
+                System.out.println("Extend Mode: Off");
+            }
+
+            // Update Player 2 radio buttons live
+            p2HumanType.setDisable(!extendOn);
+            p2AIType.setDisable(!extendOn);
+            p2ExternalType.setDisable(!extendOn);
+        });
+
+
 
         // GridPane A
         GridPane gridA = new GridPane();
@@ -118,11 +158,6 @@ public class Configuration {
         Label playerSettings = new Label("Player Settings");
         playerSettings.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
-        // Player 1 Radio Buttons
-        RadioButton p1HumanType = new RadioButton("Human");
-        RadioButton p1AIType = new RadioButton("AI");
-        RadioButton p1ExternalType = new RadioButton("External");
-
         ToggleGroup p1Group = new ToggleGroup();
         p1HumanType.setToggleGroup(p1Group);
         p1AIType.setToggleGroup(p1Group);
@@ -137,11 +172,6 @@ public class Configuration {
                 System.out.println("Player 1: " + selected.getText());
             }
         });
-
-        // Player 2 Radio Buttons
-        RadioButton p2HumanType = new RadioButton("Human");
-        RadioButton p2AIType = new RadioButton("AI");
-        RadioButton p2ExternalType = new RadioButton("External");
 
         ToggleGroup p2Group = new ToggleGroup();
         p2HumanType.setToggleGroup(p2Group);
