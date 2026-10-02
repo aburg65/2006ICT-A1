@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 public class Configuration {
 
     boolean extendOn;
+    public int fieldWidth;
+    public int fieldHeight;
+    public int initialLevel;
 
     public Scene getScene(Stage stage) {
 
@@ -28,9 +31,11 @@ public class Configuration {
         fieldWSlider.setMinorTickCount(0);
         fieldWSlider.setPrefWidth(300);
         fieldWSlider.setSnapToTicks(true);
-        fieldWSlider.valueProperty().addListener((obs, oldVal, newVal) ->
-                System.out.println("Field Width (No of cells): " + newVal.intValue())
-        );
+        fieldWSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            fieldWidth = newVal.intValue();
+            System.out.println("Field Width (No of cells): " + fieldWidth);
+        });
+
 
         Slider fieldHSlider = new Slider(15, 30, 20);
         fieldHSlider.setShowTickLabels(true);
@@ -39,9 +44,10 @@ public class Configuration {
         fieldHSlider.setMinorTickCount(0);
         fieldHSlider.setPrefWidth(300);
         fieldHSlider.setSnapToTicks(true);
-        fieldHSlider.valueProperty().addListener((obs, oldVal, newVal) ->
-                System.out.println("Field Height (No of cells): " + newVal.intValue())
-        );
+        fieldHSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            fieldHeight = newVal.intValue();
+            System.out.println("Field Height (No of cells): " + fieldHeight);
+        });
 
         Slider levelSlider = new Slider(1, 10, 1);
         levelSlider.setShowTickLabels(true);
@@ -50,9 +56,10 @@ public class Configuration {
         levelSlider.setMinorTickCount(0);
         levelSlider.setPrefWidth(300);
         levelSlider.setSnapToTicks(true);
-        levelSlider.valueProperty().addListener((obs, oldVal, newVal) ->
-                System.out.println("Game Level: " + newVal.intValue())
-        );
+        levelSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            initialLevel = newVal.intValue();
+            System.out.println("Game Level: " + initialLevel);
+        });
 
         // Player 1 Radio Buttons
         RadioButton p1HumanType = new RadioButton("Human");
