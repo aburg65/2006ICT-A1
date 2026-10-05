@@ -11,7 +11,9 @@ import javafx.stage.Stage;
 
 public class Configuration {
 
-    public static boolean extendOn;
+    public static boolean extendOn = false;
+    public static boolean musicOn = true;
+    public static boolean soundOn = true;
     public static int horGridCells = 10;
     public static int verGridCells = 20;
     public static int initialLevel = 1;
@@ -27,7 +29,7 @@ public class Configuration {
         configTitle.setPadding(new Insets(20));
 
         // Sliders
-        Slider fieldWSlider = new Slider(5, 15, 10);
+        Slider fieldWSlider = new Slider(5, 15, horGridCells);
         fieldWSlider.setShowTickLabels(true);
         fieldWSlider.setShowTickMarks(true);
         fieldWSlider.setMajorTickUnit(1);
@@ -40,7 +42,7 @@ public class Configuration {
         });
 
 
-        Slider fieldHSlider = new Slider(15, 30, 20);
+        Slider fieldHSlider = new Slider(15, 30, verGridCells);
         fieldHSlider.setShowTickLabels(true);
         fieldHSlider.setShowTickMarks(true);
         fieldHSlider.setMajorTickUnit(1);
@@ -52,7 +54,7 @@ public class Configuration {
             System.out.println("Field Height (No of cells): " + verGridCells);
         });
 
-        Slider levelSlider = new Slider(1, 10, 1);
+        Slider levelSlider = new Slider(1, 10, initialLevel);
         levelSlider.setShowTickLabels(true);
         levelSlider.setShowTickMarks(true);
         levelSlider.setMajorTickUnit(1);
@@ -75,16 +77,18 @@ public class Configuration {
         RadioButton p2ExternalType = new RadioButton("External");
 
         // Disable player buttons by default because
-        p2HumanType.setDisable(true);
-        p2AIType.setDisable(true);
-        p2ExternalType.setDisable(true);
-
+        p2HumanType.setDisable(!extendOn);
+        p2AIType.setDisable(!extendOn);
+        p2ExternalType.setDisable(!extendOn);
 
         // CheckBoxes
         CheckBox musicCheckBox = new CheckBox();
-        musicCheckBox.setSelected(true);
+        musicCheckBox.setSelected(musicOn);
+
         musicCheckBox.setOnAction(e -> {
-            if (musicCheckBox.isSelected()) {
+            musicOn = musicCheckBox.isSelected();
+
+            if (musicOn) {
                 System.out.println("Music: On");
             } else {
                 System.out.println("Music: Off");
@@ -92,17 +96,20 @@ public class Configuration {
         });
 
         CheckBox soundCheckBox = new CheckBox();
-        soundCheckBox.setSelected(true);
+        soundCheckBox.setSelected(soundOn);
         soundCheckBox.setOnAction(e -> {
-            if (soundCheckBox.isSelected()) {
+            soundOn = soundCheckBox.isSelected();
+
+            if (soundOn) {
                 System.out.println("Sound Effects: On");
             } else {
                 System.out.println("Sound Effects: Off");
             }
         });
 
+
         CheckBox extendCheckBox = new CheckBox();
-        extendCheckBox.setSelected(false);
+        extendCheckBox.setSelected(extendOn);
 
         extendCheckBox.setOnAction(e -> {
             extendOn = extendCheckBox.isSelected();
@@ -173,7 +180,13 @@ public class Configuration {
         p1AIType.setToggleGroup(p1Group);
         p1ExternalType.setToggleGroup(p1Group);
 
-        p1HumanType.setSelected(true);
+        if (player1Type.equals("Human")) {
+            p1HumanType.setSelected(true);
+        } else if (player1Type.equals("AI")) {
+            p1AIType.setSelected(true);
+        } else if (player1Type.equals("External")) {
+            p1ExternalType.setSelected(true);
+        }
 
         // Player 1 type check
         p1Group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
@@ -189,7 +202,13 @@ public class Configuration {
         p2AIType.setToggleGroup(p2Group);
         p2ExternalType.setToggleGroup(p2Group);
 
-        p2HumanType.setSelected(true);
+        if (player2Type.equals("Human")) {
+            p2HumanType.setSelected(true);
+        } else if (player2Type.equals("AI")) {
+            p2AIType.setSelected(true);
+        } else if (player2Type.equals("External")) {
+            p2ExternalType.setSelected(true);
+        }
 
         // Player 2 type check
         p2Group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {

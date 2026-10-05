@@ -16,7 +16,7 @@ public class Play {
 
     public Scene getScene(Stage stage) {
 
-        GameModule player1 = new GameModule();
+        GameModule player1 = new GameModule(1);
         player2 = null;
 
         Label promptText = new Label("Are you sure?");
@@ -92,8 +92,8 @@ public class Play {
 
         HBox fullFullGame = new HBox(20, player1Game);
 
-        if (1 == 1) {
-            player2 = new GameModule();
+        if (Configuration.extendOn) {
+            player2 = new GameModule(2);
 
             HBox player2Game = player2.getGameModule();
 

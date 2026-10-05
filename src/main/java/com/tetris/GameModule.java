@@ -13,6 +13,12 @@ import static javafx.geometry.Pos.CENTER;
 
 public class GameModule {
 
+    private int playerNumber;
+
+    public GameModule(int playerNumber) {
+        this.playerNumber = playerNumber;
+    }
+
     public Label scoreLabel;
     public Label linesErasedLabel;
     public Label currentLevelLabel;
@@ -65,11 +71,20 @@ public class GameModule {
         StackPane playFieldWrapper = new StackPane(playField);
         playFieldWrapper.getChildren().add(pauseLabel);
 
-        Label playerNumber = new Label("Game Info (Player 1)");
-        playerNumber.setStyle("-fx-font-weight: bold;");
+        Label playerNumberLabel = new Label("Game Info (Player " + playerNumber + ")");
+        playerNumberLabel.setStyle("-fx-font-weight: bold;");
 
-        Label playerType = new Label("Player Type: " + Configuration.player1Type);
+        String playerTypeValue;
+
+        if (playerNumber == 1) {
+            playerTypeValue = Configuration.player1Type;
+        } else {
+            playerTypeValue = Configuration.player2Type;
+        }
+
+        Label playerType = new Label("Player Type: " + playerTypeValue);
         playerType.setStyle("-fx-font-weight: bold;");
+
 
         Label initialLevelLabel = new Label("Initial Level: " + Configuration.initialLevel);
         initialLevelLabel.setStyle("-fx-font-weight: bold;");
@@ -91,13 +106,13 @@ public class GameModule {
         nextPreviewPane.setMinHeight(40);
         nextPreviewPane.setStyle(
                 "-fx-border-color: black; " +
-                        "-fx-border-width: 0.5px; " +
+                        "-fx-border-width: 1px; " +
                         "-fx-padding: 15px;"
         );
 
         VBox gameInfo = new VBox(
                 12,
-                playerNumber,
+                playerNumberLabel,
                 playerType,
                 initialLevelLabel,
                 currentLevelLabel,
@@ -107,7 +122,7 @@ public class GameModule {
                 nextPreviewPane
         );
 
-        gameInfo.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
+        gameInfo.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
         gameInfo.setAlignment(CENTER);
 
         HBox infoAndGame = new HBox(20, gameInfo, playFieldWrapper);
