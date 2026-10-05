@@ -11,10 +11,13 @@ import javafx.stage.Stage;
 
 public class Configuration {
 
-    boolean extendOn;
-    public static int horGridCells;
-    public static int verGridCells;
-    public int initialLevel;
+    public static boolean extendOn;
+    public static int horGridCells = 10;
+    public static int verGridCells = 20;
+    public static int initialLevel = 1;
+    public static String player1Type = "Human";
+    public static String player2Type = "Human";
+
 
     public Scene getScene(Stage stage) {
 
@@ -176,6 +179,7 @@ public class Configuration {
         p1Group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle != null) {
                 RadioButton selected = (RadioButton) newToggle;
+                Configuration.player1Type = selected.getText();
                 System.out.println("Player 1: " + selected.getText());
             }
         });
@@ -191,6 +195,7 @@ public class Configuration {
         p2Group.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
             if (newToggle != null) {
                 RadioButton selected = (RadioButton) newToggle;
+                Configuration.player2Type = selected.getText();
                 System.out.println("Player 2: " + selected.getText());
             }
         });

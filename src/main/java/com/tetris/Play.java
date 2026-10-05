@@ -16,12 +16,29 @@ import static javafx.geometry.Pos.CENTER;
 
 public class Play {
 
+    private Label scoreLabel;
+    private Label linesErasedLabel;
+    private Label currentLevelLabel;
+
+    public int initialLevel = Configuration.initialLevel;
+    public int currentLevel = initialLevel;
+
+
+    int cols = Configuration.horGridCells;
+    int rows = Configuration.verGridCells;
+    int cellSize = 15;
+    int fieldWidth = cols * cellSize;
+    int fieldHeight = rows * cellSize;
+
     private Rectangle[] currentBlock;
     private int nextBlock;
     private StackPane nextPreviewPane;
 
     private AnimationTimer fallTimer;
-    private double dy = 0.15;
+    private double fallSpeed = 0.05 + (currentLevel * 0.05);
+    private double dy = fallSpeed;
+    public static int linesErased;
+    public static int score;
 
     private boolean isPaused = false;
     private boolean wasPausedBeforeBack = false;
@@ -34,13 +51,6 @@ public class Play {
 
     public Scene getScene(Stage stage) {
 
-        int cols = 10;
-        int rows = 20;
-        int cellSize = 15;
-        int fieldWidth = cols * cellSize;
-        int fieldHeight = rows * cellSize;
-
-        // Game playfield
         Pane playField = new Pane();
         playField.setPrefSize(fieldWidth, fieldHeight);
         playField.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -104,7 +114,6 @@ public class Play {
             backPromptOverlay.setVisible(true);
         });
 
-        // Create scene
         StackPane playFieldWrapper = new StackPane(playField);
 
         pauseLabel = new Label("Game is paused,\npress P to continue.");
@@ -117,16 +126,19 @@ public class Play {
 
         Label playerNumber = new Label("Game Info (Player 1)");
         playerNumber.setStyle("-fx-font-weight: bold;");
-        Label playerType = new Label("Player Type: " + "Configuration.playerType");
+        Label playerType = new Label("Player Type: " + Configuration.player1Type);
         playerType.setStyle("-fx-font-weight: bold;");
-        Label initialLevel = new Label("Initial Leve: " + "Configuration.initialLevel");
-        initialLevel.setStyle("-fx-font-weight: bold;");
-        Label currentLevel = new Label("Current Level: " + "currentLevel");
-        currentLevel.setStyle("-fx-font-weight: bold;");
-        Label lineErased = new Label("Lines Erased: " + "linesErased");
-        lineErased.setStyle("-fx-font-weight: bold;");
-        Label score = new Label("Score: " + "score");
-        score.setStyle("-fx-font-weight: bold;");
+        Label initialLevelLabel = new Label("Initial Level: " + Configuration.initialLevel);
+        initialLevelLabel.setStyle("-fx-font-weight: bold;");
+        currentLevelLabel = new Label("Current Level: " + currentLevel);
+        currentLevelLabel.setStyle("-fx-font-weight: bold;");
+
+        linesErasedLabel = new Label("Lines Erased: " + linesErased);
+        linesErasedLabel.setStyle("-fx-font-weight: bold;");
+
+        scoreLabel = new Label("Score: " + score);
+        scoreLabel.setStyle("-fx-font-weight: bold;");
+
         Label nextTet = new Label("Next Tetromino:");
         nextTet.setStyle("-fx-font-weight: bold;");
         nextPreviewPane = new StackPane();
@@ -134,8 +146,8 @@ public class Play {
         nextPreviewPane.setMinHeight(40);
         nextPreviewPane.setStyle("-fx-border-color: black; -fx-border-width: 0.5px; -fx-padding: 15px;");
 
-
-        VBox gameInfo = new VBox(12, playerNumber, playerType, initialLevel, currentLevel, lineErased, score, nextTet, nextPreviewPane);
+        VBox gameInfo = new VBox(12, playerNumber, playerType, initialLevelLabel, currentLevelLabel,
+                linesErasedLabel, scoreLabel, nextTet, nextPreviewPane);
         gameInfo.setStyle("-fx-border-color: black; -fx-border-width: 0.5px;");
         gameInfo.setAlignment(CENTER);
 
@@ -170,14 +182,13 @@ public class Play {
 
         scene.setOnKeyReleased(e -> {
             if (e.getCode() == javafx.scene.input.KeyCode.DOWN) {
-                dy = 0.15;
+                dy = fallSpeed;
             }
         });
 
         nextBlock = generateNextBlock();
         updateNextPreview(nextPreviewPane, nextBlock, cellSize);
         spawnBlock(playField, cellSize, fieldHeight);
-
 
         return scene;
     }
@@ -205,7 +216,7 @@ public class Play {
 
     private int generateNextBlock() {
         int n = (int)(Math.random() * 7) + 1;
-        System.out.println("Next block decided: " + n);  // PRINT HERE
+        System.out.println("Next block decided: " + n);
         return n;
     }
 
@@ -213,19 +224,16 @@ public class Play {
 
         previewPane.getChildren().clear();
 
-        // Create the block
         Blocks block = Blocks.createBlock(nextBlock, cellSize);
         Rectangle[] squares = block.getSquares();
 
-        // Center the preview block inside the preview pane
         for (Rectangle r : squares) {
-            r.setX(r.getX() - 45);  // shift left
-            r.setY(r.getY() + 10);  // shift down
+            r.setX(r.getX() - 45);
+            r.setY(r.getY() + 10);
         }
 
         previewPane.getChildren().addAll(squares);
     }
-
 
     private void spawnBlock(Pane playField, int cellSize, int fieldHeight) {
 
@@ -235,12 +243,9 @@ public class Play {
             return;
         }
 
-        dy = 0.15;
-
-        int blockType = nextBlock;          // use the pre-selected block
+        int blockType = nextBlock;
         nextBlock = generateNextBlock();
         updateNextPreview(nextPreviewPane, nextBlock, cellSize);
-
 
         currentBlock = Blocks.createBlock(blockType, cellSize).getSquares();
 
@@ -307,7 +312,7 @@ public class Play {
             double newX = r.getX() + dx;
             double newY = r.getY() + dy;
 
-            if (newX < 0 || newX + r.getWidth() > 150) {
+            if (newX < 0 || newX + r.getWidth() > fieldWidth) {
                 return;
             }
 
@@ -374,16 +379,36 @@ public class Play {
 
     private void checkAndClearRows(int cellSize, Pane playField) {
 
-        int[] rowCount = new int[20];
+        int[] rowCount = new int[rows];
 
         for (Rectangle r : landed) {
             int row = (int)(r.getY() / cellSize);
             rowCount[row]++;
         }
 
-        for (int row = 0; row < 20; row++) {
+        for (int row = 0; row < rows; row++) {
 
-            if (rowCount[row] == 10) {
+            if (rowCount[row] == cols) {
+
+                System.out.println("Fall Speed: " + fallSpeed);
+                System.out.println("Current Level: " + currentLevel);
+
+                linesErased++;
+                if (linesErased % 5 == 0) {
+                    score += 100;
+                    currentLevel ++;
+
+                    fallSpeed = 0.05 + (currentLevel * 0.05);
+                    dy = fallSpeed;
+
+                    currentLevelLabel.setText("Current Level: " + currentLevel);
+                }
+
+
+                linesErasedLabel.setText("Lines Erased: " + linesErased);
+
+                score += 100;
+                scoreLabel.setText("Score: " + score);
 
                 List<Rectangle> toRemove = new ArrayList<>();
                 for (Rectangle r : landed) {
