@@ -13,7 +13,7 @@ import static javafx.geometry.Pos.CENTER;
 
 public class GameModule {
 
-    private int playerNumber;
+    public int playerNumber;
 
     public GameModule(int playerNumber) {
         this.playerNumber = playerNumber;
@@ -40,7 +40,7 @@ public class GameModule {
     public double fallSpeed = 0.05 + (currentLevel * 0.05);
     public double dy = fallSpeed;
     public static int linesErased;
-    public static int score;
+    public int score;
 
     public boolean isPaused = false;
     public boolean gameOver = false;

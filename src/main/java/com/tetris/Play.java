@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import static javafx.geometry.Pos.CENTER;
@@ -24,8 +25,97 @@ public class Play {
 
         Button yesButton = new Button("Yes");
         yesButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
         yesButton.setOnAction(e -> {
-            stage.setScene(new MainMenu().getScene(stage));
+
+            Label nameLabel = new Label("Enter name player 1");
+            nameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+            TextField nameField = new TextField();
+            nameField.setPromptText("Player 1 name");
+            nameField.setMaxWidth(250);
+
+            Button continueButton = new Button("Continue");
+            continueButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+            continueButton.setOnAction(event -> {
+
+                String player1Name = nameField.getText();
+
+                System.out.println("Player 1 name: " + player1Name);
+
+                storePlayerData(
+                        player1Name,
+                        Configuration.player1Type,
+                        player1.score
+                );
+
+                if (player2 != null) {
+
+                    Label player2NameLabel = new Label("Enter name player 2");
+                    player2NameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+
+                    TextField player2NameField = new TextField();
+                    player2NameField.setPromptText("Player 2 name");
+                    player2NameField.setMaxWidth(250);
+
+                    Button player2ContinueButton = new Button("Continue");
+                    player2ContinueButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+                    player2ContinueButton.setOnAction(player2Event -> {
+
+                        String player2Name = player2NameField.getText();
+
+                        System.out.println("Player 2 name: " + player2Name);
+
+                        storePlayerData(
+                                player2Name,
+                                Configuration.player2Type,
+                                player2.score
+                        );
+
+                        // Save information later
+                        stage.setScene(new MainMenu().getScene(stage));
+                    });
+
+                    VBox player2Box = new VBox(
+                            20,
+                            player2NameLabel,
+                            player2NameField,
+                            player2ContinueButton
+                    );
+
+                    player2Box.setAlignment(CENTER);
+                    player2Box.setStyle(
+                            "-fx-background-color: rgba(255,255,255,0.9);" +
+                                    "-fx-padding: 30px;"
+                    );
+
+                    backPromptOverlay.getChildren().clear();
+                    backPromptOverlay.getChildren().add(player2Box);
+
+                } else {
+
+                    // Only Player 1
+                    stage.setScene(new MainMenu().getScene(stage));
+                }
+            });
+
+            VBox nameBox = new VBox(
+                    20,
+                    nameLabel,
+                    nameField,
+                    continueButton
+            );
+
+            nameBox.setAlignment(CENTER);
+            nameBox.setStyle(
+                    "-fx-background-color: rgba(255,255,255,0.9);" +
+                            "-fx-padding: 30px;"
+            );
+
+            backPromptOverlay.getChildren().clear();
+            backPromptOverlay.getChildren().add(nameBox);
         });
 
         Button noButton = new Button("No");
@@ -66,20 +156,18 @@ public class Play {
 
         Button backButton = new Button("Back to Main Menu");
         backButton.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
-        backButton.setOnAction(e -> {
 
-            if (player1.gameOver) {
-                stage.setScene(new MainMenu().getScene(stage));
-                return;
-            }
+        backButton.setOnAction(e -> {
 
             wasPausedBeforeBack = player1.isPaused;
 
-            player1.fallTimer.stop();
-            player1.isPaused = true;
-            player1.pauseLabel.setVisible(true);
+            if (!player1.gameOver) {
+                player1.fallTimer.stop();
+                player1.isPaused = true;
+                player1.pauseLabel.setVisible(true);
+            }
 
-            if (player2 != null) {
+            if (player2 != null && !player2.gameOver) {
                 player2.fallTimer.stop();
                 player2.isPaused = true;
                 player2.pauseLabel.setVisible(true);
@@ -121,7 +209,6 @@ public class Play {
                 MainMenu.windowWidth,
                 MainMenu.windowHeight
         );
-
 
         scene.setOnKeyPressed(e -> {
 
@@ -219,4 +306,29 @@ public class Play {
 
         return scene;
     }
+
+    private void storePlayerData(
+            String playerName,
+            String playerType,
+            int playerScore) {
+
+        String endPlayerName = playerName;
+        int endScore = playerScore;
+        int endCols = Configuration.horGridCells;
+        int endRows = Configuration.verGridCells;
+        int endInitialLevel = Configuration.initialLevel;
+        String endPlayerType = playerType;
+        boolean endExtendOn = Configuration.extendOn;
+
+        System.out.println("Name: " + endPlayerName);
+        System.out.println("Score: " + endScore);
+        System.out.println("Cols: " + endCols);
+        System.out.println("Rows: " + endRows);
+        System.out.println("Initial Level: " + endInitialLevel);
+        System.out.println("Player Type: " + endPlayerType);
+        System.out.println("Extend On: " + endExtendOn);
+
+        // JSON saving will go here later
+    }
+
 }
