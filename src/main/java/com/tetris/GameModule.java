@@ -115,12 +115,6 @@ public class GameModule {
         infoAndGame.setAlignment(CENTER);
         infoAndGame.setMaxWidth(Region.USE_PREF_SIZE);
 
-        infoAndGame.setOnKeyReleased(e -> {
-            if (e.getCode() == javafx.scene.input.KeyCode.DOWN) {
-                dy = fallSpeed;
-            }
-        });
-
         nextBlock = generateNextBlock();
         updateNextPreview(nextPreviewPane, nextBlock, cellSize);
         spawnBlock(playField, cellSize, fieldHeight);
