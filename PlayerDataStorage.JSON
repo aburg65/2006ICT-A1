@@ -23,5 +23,13 @@
     "initialLevel" : 2,
     "playerType" : "AI",
     "extendOn" : true
+  }, {
+    "name" : "fffff",
+    "score" : 1500,
+    "cols" : 10,
+    "rows" : 20,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : false
   } ]
 }

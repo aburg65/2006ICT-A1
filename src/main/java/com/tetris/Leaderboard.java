@@ -1,22 +1,53 @@
 package com.tetris;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
+import java.io.IOException;
+
 public class Leaderboard {
 
-    public record Player(String name, int score) {}
+    public record Player(
+            String name,
+            int score,
+            int cols,
+            int rows,
+            int initialLevel,
+            String playerType,
+            boolean extendOn
+    ) {}
 
-    // Record of dummy data
     public static Player[] getPlayers() {
-        return new Player[] {
-                new Player("Jake", 10000),
-                new Player("Sarah", 9000),
-                new Player("Tom", 8000),
-                new Player("Mia", 7000),
-                new Player("Alex", 6000),
-                new Player("Andrew", 5000),
-                new Player("Sam", 4000),
-                new Player("Sofia", 3000),
-                new Player("Maya", 2000),
-                new Player("Michael", 1000)
-        };
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            File file = new File("PlayerDataStorage.JSON");
+
+            PlayerData[] playerData = objectMapper.readValue(
+                    objectMapper.readTree(file).get("players").toString(),
+                    PlayerData[].class
+            );
+
+            Player[] players = new Player[playerData.length];
+
+            for (int i = 0; i < playerData.length; i++) {
+                players[i] = new Player(
+                        playerData[i].name,
+                        playerData[i].score,
+                        playerData[i].cols,
+                        playerData[i].rows,
+                        playerData[i].initialLevel,
+                        playerData[i].playerType,
+                        playerData[i].extendOn
+                );
+            }
+
+            return players;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new Player[0];
+        }
     }
 }
