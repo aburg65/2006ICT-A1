@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class MainMenu {
 
     //Global window size
-    public static int windowWidth = 800;
+    public static int windowWidth = 900;
     public static int windowHeight = 700;
 
     private StackPane exitPromptOverlay; //Declare overlay

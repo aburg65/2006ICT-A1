@@ -47,10 +47,10 @@ public abstract class Blocks {
     public static class IBlock extends Blocks implements Movable, Rotatable {
         public IBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(3, 0, cellSize, Color.CYAN),
-                    square(4, 0, cellSize, Color.CYAN),
-                    square(5, 0, cellSize, Color.CYAN),
-                    square(6, 0, cellSize, Color.CYAN)
+                    square(Configuration.horGridCells/2-1, 0, cellSize, Color.CYAN),
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.CYAN),
+                    square(Configuration.horGridCells/2+1, 0, cellSize, Color.CYAN),
+                    square(Configuration.horGridCells/2+2, 0, cellSize, Color.CYAN)
             };
         }
 
@@ -71,10 +71,10 @@ public abstract class Blocks {
     public static class JBlock extends Blocks implements Movable {
         public JBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(3, 0, cellSize, Color.BLUE),
-                    square(4, 0, cellSize, Color.BLUE),
-                    square(5, 0, cellSize, Color.BLUE),
-                    square(3, 1, cellSize, Color.BLUE)
+                    square(Configuration.horGridCells/2-1, 0, cellSize, Color.BLUE),
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.BLUE),
+                    square(Configuration.horGridCells/2+1, 0, cellSize, Color.BLUE),
+                    square(Configuration.horGridCells/2-1, 1, cellSize, Color.BLUE)
             };
         }
 
@@ -90,10 +90,10 @@ public abstract class Blocks {
     public static class LBlock extends Blocks implements Movable {
         public LBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(3, 0, cellSize, Color.ORANGE),
-                    square(4, 0, cellSize, Color.ORANGE),
-                    square(5, 0, cellSize, Color.ORANGE),
-                    square(5, 1, cellSize, Color.ORANGE)
+                    square(Configuration.horGridCells/2-1, 0, cellSize, Color.ORANGE),
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.ORANGE),
+                    square(Configuration.horGridCells/2+1, 0, cellSize, Color.ORANGE),
+                    square(Configuration.horGridCells/2+1, 1, cellSize, Color.ORANGE)
             };
         }
 
@@ -109,10 +109,10 @@ public abstract class Blocks {
     public static class OBlock extends Blocks {
         public OBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(4, 0, cellSize, Color.YELLOW),
-                    square(5, 0, cellSize, Color.YELLOW),
-                    square(4, 1, cellSize, Color.YELLOW),
-                    square(5, 1, cellSize, Color.YELLOW)
+                    square(Configuration.horGridCells/2-1, 0, cellSize, Color.YELLOW),
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.YELLOW),
+                    square(Configuration.horGridCells/2-1, 1, cellSize, Color.YELLOW),
+                    square(Configuration.horGridCells/2, 1, cellSize, Color.YELLOW)
             };
         }
     }
@@ -120,10 +120,10 @@ public abstract class Blocks {
     public static class SBlock extends Blocks implements Movable {
         public SBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(4, 0, cellSize, Color.GREEN),
-                    square(5, 0, cellSize, Color.GREEN),
-                    square(3, 1, cellSize, Color.GREEN),
-                    square(4, 1, cellSize, Color.GREEN)
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.GREEN),
+                    square(Configuration.horGridCells/2+1, 0, cellSize, Color.GREEN),
+                    square(Configuration.horGridCells/2-1, 1, cellSize, Color.GREEN),
+                    square(Configuration.horGridCells/2, 1, cellSize, Color.GREEN)
             };
         }
 
@@ -139,10 +139,10 @@ public abstract class Blocks {
     public static class TBlock extends Blocks implements Movable {
         public TBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(3, 0, cellSize, Color.PURPLE),
-                    square(4, 0, cellSize, Color.PURPLE),
-                    square(5, 0, cellSize, Color.PURPLE),
-                    square(4, 1, cellSize, Color.PURPLE)
+                    square(Configuration.horGridCells/2-1, 0, cellSize, Color.PURPLE),
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.PURPLE),
+                    square(Configuration.horGridCells/2+1, 0, cellSize, Color.PURPLE),
+                    square(Configuration.horGridCells/2, 1, cellSize, Color.PURPLE)
             };
         }
 
@@ -158,10 +158,10 @@ public abstract class Blocks {
     public static class ZBlock extends Blocks implements Movable {
         public ZBlock(int cellSize) {
             squares = new Rectangle[]{
-                    square(3, 0, cellSize, Color.RED),
-                    square(4, 0, cellSize, Color.RED),
-                    square(4, 1, cellSize, Color.RED),
-                    square(5, 1, cellSize, Color.RED)
+                    square(Configuration.horGridCells/2-1, 0, cellSize, Color.RED),
+                    square(Configuration.horGridCells/2, 0, cellSize, Color.RED),
+                    square(Configuration.horGridCells/2, 1, cellSize, Color.RED),
+                    square(Configuration.horGridCells/2+1, 1, cellSize, Color.RED)
             };
         }
 
