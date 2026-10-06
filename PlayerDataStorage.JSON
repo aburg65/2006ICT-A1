@@ -1,0 +1,27 @@
+{
+  "players" : [ {
+    "name" : "12345",
+    "score" : 5200,
+    "cols" : 10,
+    "rows" : 20,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : false
+  }, {
+    "name" : "1a",
+    "score" : 100,
+    "cols" : 11,
+    "rows" : 22,
+    "initialLevel" : 2,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "2a",
+    "score" : 300,
+    "cols" : 11,
+    "rows" : 22,
+    "initialLevel" : 2,
+    "playerType" : "AI",
+    "extendOn" : true
+  } ]
+}

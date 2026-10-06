@@ -6,7 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.File;
+import java.io.IOException;
 import static javafx.geometry.Pos.CENTER;
 
 public class Play {
@@ -74,7 +79,6 @@ public class Play {
                                 player2.score
                         );
 
-                        // Save information later
                         stage.setScene(new MainMenu().getScene(stage));
                     });
 
@@ -96,7 +100,6 @@ public class Play {
 
                 } else {
 
-                    // Only Player 1
                     stage.setScene(new MainMenu().getScene(stage));
                 }
             });
@@ -214,7 +217,6 @@ public class Play {
 
             switch (e.getCode()) {
 
-                // PLAYER 1 CONTROLS
                 case A -> {
                     if (!player1.isPaused) {
                         player1.moveBlock(-player1.cellSize, 0);
@@ -242,8 +244,6 @@ public class Play {
                     }
                 }
 
-
-                // PLAYER 2 CONTROLS
                 case LEFT -> {
                     if (player2 != null && !player2.isPaused) {
                         player2.moveBlock(-player2.cellSize, 0);
@@ -271,8 +271,6 @@ public class Play {
                     }
                 }
 
-
-                // PAUSE BOTH
                 case P -> {
                     player1.togglePause();
 
@@ -285,22 +283,18 @@ public class Play {
             }
         });
 
-
         scene.setOnKeyReleased(e -> {
 
-            // PLAYER 1
             if (e.getCode() == javafx.scene.input.KeyCode.S) {
                 player1.dy = player1.fallSpeed;
             }
 
-            // PLAYER 2
             if (e.getCode() == javafx.scene.input.KeyCode.DOWN) {
                 if (player2 != null) {
                     player2.dy = player2.fallSpeed;
                 }
             }
         });
-
 
         wholeScene.requestFocus();
 
@@ -312,23 +306,44 @@ public class Play {
             String playerType,
             int playerScore) {
 
-        String endPlayerName = playerName;
-        int endScore = playerScore;
-        int endCols = Configuration.horGridCells;
-        int endRows = Configuration.verGridCells;
-        int endInitialLevel = Configuration.initialLevel;
-        String endPlayerType = playerType;
-        boolean endExtendOn = Configuration.extendOn;
+        PlayerData playerData = new PlayerData();
 
-        System.out.println("Name: " + endPlayerName);
-        System.out.println("Score: " + endScore);
-        System.out.println("Cols: " + endCols);
-        System.out.println("Rows: " + endRows);
-        System.out.println("Initial Level: " + endInitialLevel);
-        System.out.println("Player Type: " + endPlayerType);
-        System.out.println("Extend On: " + endExtendOn);
+        playerData.name = playerName;
+        playerData.score = playerScore;
+        playerData.cols = Configuration.horGridCells;
+        playerData.rows = Configuration.verGridCells;
+        playerData.initialLevel = Configuration.initialLevel;
+        playerData.playerType = playerType;
+        playerData.extendOn = Configuration.extendOn;
 
-        // JSON saving will go here later
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            File file = new File("PlayerDataStorage.JSON");
+
+            ObjectNode root;
+
+            if (file.exists()) {
+                root = (ObjectNode) objectMapper.readTree(file);
+            } else {
+                root = objectMapper.createObjectNode();
+                root.putArray("players");
+            }
+
+            ArrayNode players = (ArrayNode) root.get("players");
+
+            if (players == null) {
+                players = root.putArray("players");
+            }
+
+            players.add(objectMapper.valueToTree(playerData));
+
+            objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(file, root);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
