@@ -22,6 +22,9 @@ public class Play {
 
     public Scene getScene(Stage stage) {
 
+        Configuration configuration = new Configuration();
+        configuration.loadConfiguration();
+
         GameModule player1 = new GameModule(1);
         player2 = null;
 

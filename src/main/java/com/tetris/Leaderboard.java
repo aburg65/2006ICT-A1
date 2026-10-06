@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Leaderboard {
 
@@ -41,6 +42,12 @@ public class Leaderboard {
                         playerData[i].playerType,
                         playerData[i].extendOn
                 );
+            }
+
+            Arrays.sort(players, (a, b) -> Integer.compare(b.score(), a.score()));
+
+            if (players.length > 10) {
+                players = Arrays.copyOf(players, 10);
             }
 
             return players;

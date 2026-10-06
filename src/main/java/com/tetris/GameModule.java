@@ -122,6 +122,7 @@ public class GameModule {
                 nextPreviewPane
         );
 
+        gameInfo.setMinWidth(150);
         gameInfo.setStyle("-fx-border-color: black; -fx-border-width: 1px;");
         gameInfo.setAlignment(CENTER);
 

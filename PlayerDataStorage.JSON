@@ -1,31 +1,119 @@
 {
   "players" : [ {
-    "name" : "12345",
-    "score" : 5200,
+    "name" : "",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : false
+  }, {
+    "name" : "2",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "2",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "2",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "2",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "2",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "2",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "1",
+    "score" : 0,
     "cols" : 10,
     "rows" : 20,
     "initialLevel" : 1,
     "playerType" : "Human",
     "extendOn" : false
   }, {
-    "name" : "1a",
-    "score" : 100,
-    "cols" : 11,
-    "rows" : 22,
-    "initialLevel" : 2,
+    "name" : "1",
+    "score" : 0,
+    "cols" : 10,
+    "rows" : 20,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : false
+  }, {
+    "name" : "32e4",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
     "playerType" : "External",
     "extendOn" : true
   }, {
-    "name" : "2a",
-    "score" : 300,
-    "cols" : 11,
-    "rows" : 22,
-    "initialLevel" : 2,
+    "name" : "asd",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
     "playerType" : "AI",
     "extendOn" : true
   }, {
-    "name" : "fffff",
-    "score" : 1500,
+    "name" : "123456",
+    "score" : 200,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "gggg",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "1234",
+    "score" : 400,
+    "cols" : 10,
+    "rows" : 20,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : false
+  }, {
+    "name" : "",
+    "score" : 0,
     "cols" : 10,
     "rows" : 20,
     "initialLevel" : 1,

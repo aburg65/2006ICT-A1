@@ -9,6 +9,12 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
+import java.io.IOException;
+
 public class Configuration {
 
     public static boolean extendOn = false;
@@ -22,6 +28,8 @@ public class Configuration {
 
 
     public Scene getScene(Stage stage) {
+
+        loadConfiguration();
 
         // Title
         Label configTitle = new Label("CONFIGURATION");
@@ -244,6 +252,8 @@ public class Configuration {
         Button backButton = new Button("Back to Main Menu");
         backButton.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
         backButton.setOnAction(e -> {
+            saveConfiguration();
+
             MainMenu menu = new MainMenu();
             Scene menuScene = menu.getScene(stage);
             stage.setScene(menuScene);
@@ -254,5 +264,66 @@ public class Configuration {
         root.setAlignment(Pos.CENTER);
 
         return new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
+    }
+
+    private void saveConfiguration() {
+
+        try {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            File file = new File("ConfigurationStorage.JSON");
+
+            ObjectNode configuration = objectMapper.createObjectNode();
+
+            configuration.put("extendOn", extendOn);
+            configuration.put("musicOn", musicOn);
+            configuration.put("soundOn", soundOn);
+
+            configuration.put("horGridCells", horGridCells);
+            configuration.put("verGridCells", verGridCells);
+            configuration.put("initialLevel", initialLevel);
+
+            configuration.put("player1Type", player1Type);
+            configuration.put("player2Type", player2Type);
+
+            objectMapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(file, configuration);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    public void loadConfiguration() {
+
+        try {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            File file = new File("ConfigurationStorage.JSON");
+
+            if (!file.exists()) {
+                return;
+            }
+
+            ObjectNode configuration = (ObjectNode) objectMapper.readTree(file);
+
+            extendOn = configuration.get("extendOn").asBoolean();
+            musicOn = configuration.get("musicOn").asBoolean();
+            soundOn = configuration.get("soundOn").asBoolean();
+
+            horGridCells = configuration.get("horGridCells").asInt();
+            verGridCells = configuration.get("verGridCells").asInt();
+            initialLevel = configuration.get("initialLevel").asInt();
+
+            player1Type = configuration.get("player1Type").asText();
+            player2Type = configuration.get("player2Type").asText();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
     }
 }
