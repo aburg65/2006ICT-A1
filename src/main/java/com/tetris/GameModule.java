@@ -85,7 +85,6 @@ public class GameModule {
         Label playerType = new Label("Player Type: " + playerTypeValue);
         playerType.setStyle("-fx-font-weight: bold;");
 
-
         Label initialLevelLabel = new Label("Initial Level: " + Configuration.initialLevel);
         initialLevelLabel.setStyle("-fx-font-weight: bold;");
 
@@ -415,6 +414,7 @@ public class GameModule {
             Pane playField) {
 
         int[] rowCount = new int[rows];
+        int rowsCleared = 0;
 
         for (Rectangle r : landed) {
 
@@ -436,11 +436,10 @@ public class GameModule {
                         "Current Level: " + currentLevel
                 );
 
+                rowsCleared++;
                 linesErased++;
 
-                if (linesErased % 5 == 0) {
-
-                    score += 100;
+                if (linesErased % 10 == 0) {
 
                     currentLevel++;
 
@@ -453,16 +452,6 @@ public class GameModule {
                             "Current Level: " + currentLevel
                     );
                 }
-
-                linesErasedLabel.setText(
-                        "Lines Erased: " + linesErased
-                );
-
-                score += 100;
-
-                scoreLabel.setText(
-                        "Score: " + score
-                );
 
                 List<Rectangle> toRemove = new ArrayList<>();
 
@@ -494,6 +483,27 @@ public class GameModule {
                     }
                 }
             }
+        }
+
+        if (rowsCleared > 0) {
+
+            if (rowsCleared == 1) {
+                score += 100;
+            } else if (rowsCleared == 2) {
+                score += 300;
+            } else if (rowsCleared == 3) {
+                score += 600;
+            } else if (rowsCleared == 4) {
+                score += 1000;
+            }
+
+            linesErasedLabel.setText(
+                    "Lines Erased: " + linesErased
+            );
+
+            scoreLabel.setText(
+                    "Score: " + score
+            );
         }
     }
 }
