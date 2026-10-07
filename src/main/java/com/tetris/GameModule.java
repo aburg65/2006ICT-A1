@@ -198,6 +198,10 @@ public class GameModule {
 
             gameOver = true;
 
+            // play game-finish sound
+            MusicPlayer sfx = new MusicPlayer();
+            sfx.start("/audios/game-finish.wav", false);
+
             return;
         }
 
@@ -337,6 +341,10 @@ public class GameModule {
             r.setX(r.getX() + dx);
             r.setY(r.getY() + dy);
         }
+
+        // play move-turn sound
+        MusicPlayer sfx = new MusicPlayer();
+        sfx.start("/audios/move-turn.wav", false);
     }
 
     public void rotateBlock(
@@ -407,6 +415,10 @@ public class GameModule {
                     newGY * cellSize
             );
         }
+
+        // play move-turn sound
+        MusicPlayer sfx = new MusicPlayer();
+        sfx.start("/audios/move-turn.wav", false);
     }
 
     public void checkAndClearRows(
@@ -451,6 +463,11 @@ public class GameModule {
                     currentLevelLabel.setText(
                             "Current Level: " + currentLevel
                     );
+
+                    // play level-up sound
+                    MusicPlayer sfx = new MusicPlayer();
+                    sfx.start("/audios/level-up.wav", false);
+
                 }
 
                 List<Rectangle> toRemove = new ArrayList<>();
@@ -470,6 +487,10 @@ public class GameModule {
                     playField.getChildren().remove(r);
                     landed.remove(r);
                 }
+
+                // play clear-row sound
+                MusicPlayer sfx = new MusicPlayer();
+                sfx.start("/audios/erase-line.wav", false);
 
                 for (Rectangle r : landed) {
 

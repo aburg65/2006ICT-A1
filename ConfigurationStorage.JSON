@@ -2,7 +2,7 @@
   "extendOn" : true,
   "musicOn" : false,
   "soundOn" : false,
-  "horGridCells" : 6,
+  "horGridCells" : 10,
   "verGridCells" : 30,
   "initialLevel" : 1,
   "player1Type" : "External",

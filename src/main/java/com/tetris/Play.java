@@ -19,8 +19,11 @@ public class Play {
     private boolean wasPausedBeforeBack = false;
     private StackPane backPromptOverlay;
     private GameModule player2;
+    private MusicPlayer musicPlayer = new MusicPlayer();
 
     public Scene getScene(Stage stage) {
+
+        musicPlayer.start("/audios/background.mp3", true);
 
         Configuration configuration = new Configuration();
         configuration.loadConfiguration();
@@ -35,6 +38,8 @@ public class Play {
         yesButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
         yesButton.setOnAction(e -> {
+
+            musicPlayer.stop();
 
             Label nameLabel = new Label("Enter name player 1");
             nameLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
