@@ -282,8 +282,7 @@ public class Configuration {
         return new Scene(root, MainMenu.windowWidth, MainMenu.windowHeight);
     }
 
-    private void saveConfiguration() {
-
+    public void saveConfiguration() {
         try {
 
             ObjectMapper objectMapper = new ObjectMapper();

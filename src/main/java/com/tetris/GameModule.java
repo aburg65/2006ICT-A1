@@ -308,8 +308,10 @@ public class GameModule {
             gameOver = true;
 
             // play game-finish sound
-            MusicPlayer sfx = new MusicPlayer();
-            sfx.start("/audios/game-finish.wav", false);
+            if (Configuration.soundOn) {
+                MusicPlayer sfx = new MusicPlayer();
+                sfx.start("/audios/game-finish.wav", false);
+            }
 
             return;
         }
@@ -469,8 +471,10 @@ public class GameModule {
         }
 
         // play move-turn sound
-        MusicPlayer sfx = new MusicPlayer();
-        sfx.start("/audios/move-turn.wav", false);
+        if (Configuration.soundOn) {
+            MusicPlayer sfx = new MusicPlayer();
+            sfx.start("/audios/move-turn.wav", false);
+        }
     }
 
     public void executeAIMove(AIMove move) {
@@ -608,8 +612,10 @@ public class GameModule {
         }
 
         // play move-turn sound
-        MusicPlayer sfx = new MusicPlayer();
-        sfx.start("/audios/move-turn.wav", false);
+        if (Configuration.soundOn) {
+            MusicPlayer sfx = new MusicPlayer();
+            sfx.start("/audios/move-turn.wav", false);
+        }
     }
 
     public void checkAndClearRows(
@@ -656,9 +662,10 @@ public class GameModule {
                     );
 
                     // play level-up sound
-                    MusicPlayer sfx = new MusicPlayer();
-                    sfx.start("/audios/level-up.wav", false);
-
+                    if (Configuration.soundOn) {
+                        MusicPlayer sfx = new MusicPlayer();
+                        sfx.start("/audios/level-up.wav", false);
+                    }
                 }
 
                 List<Rectangle> toRemove = new ArrayList<>();
@@ -680,8 +687,10 @@ public class GameModule {
                 }
 
                 // play clear-row sound
-                MusicPlayer sfx = new MusicPlayer();
-                sfx.start("/audios/erase-line.wav", false);
+                if (Configuration.soundOn) {
+                    MusicPlayer sfx = new MusicPlayer();
+                    sfx.start("/audios/erase-line.wav", false);
+                }
 
                 for (Rectangle r : landed) {
 

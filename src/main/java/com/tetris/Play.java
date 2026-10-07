@@ -21,10 +21,14 @@ public class Play {
     private GameModule player2;
     private MusicPlayer musicPlayer = new MusicPlayer();
 
+    private boolean musicOn = Configuration.musicOn;
+    private boolean soundOn = Configuration.soundOn;
+
     public Scene getScene(Stage stage) {
 
-        musicPlayer.start("/audios/background.mp3", true);
-
+        if (musicOn) {
+            musicPlayer.start("/audios/background.mp3", true);
+        }
         Configuration configuration = new Configuration();
         configuration.loadConfiguration();
 
@@ -174,6 +178,12 @@ public class Play {
         Label playTitle = new Label("Play");
         playTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 28px;");
 
+        Label soundStatus = new Label(
+                "Music: " + (musicOn ? "On" : "Off") +
+                        " Sound Effects: " + (soundOn ? "On" : "Off")
+        );
+        soundStatus.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
         Button backButton = new Button("Back to Main Menu");
         backButton.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
@@ -212,6 +222,7 @@ public class Play {
         VBox wholeScene = new VBox(
                 20,
                 playTitle,
+                soundStatus,
                 fullFullGame,
                 backButton
         );
@@ -233,19 +244,19 @@ public class Play {
 
             switch (e.getCode()) {
 
-                case A -> {
+                case COMMA -> {
                     if (!player1.isPaused) {
                         player1.moveBlock(-player1.cellSize, 0);
                     }
                 }
 
-                case D -> {
+                case PERIOD -> {
                     if (!player1.isPaused) {
                         player1.moveBlock(player1.cellSize, 0);
                     }
                 }
 
-                case W -> {
+                case L -> {
                     if (!player1.isPaused) {
                         player1.rotateBlock(
                                 player1.currentBlock,
@@ -254,7 +265,7 @@ public class Play {
                     }
                 }
 
-                case S -> {
+                case SPACE -> {
                     if (!player1.isPaused) {
                         player1.dy = 2.0;
                     }
@@ -293,6 +304,38 @@ public class Play {
                     if (player2 != null) {
                         player2.togglePause();
                     }
+                }
+
+                case M -> {
+                    musicOn = !musicOn;
+                    Configuration.musicOn = musicOn;
+                    configuration.saveConfiguration();
+
+                    if (musicOn) {
+                        musicPlayer.start("/audios/background.mp3", true);
+                    } else {
+                        musicPlayer.stop();
+                    }
+
+                    soundStatus.setText(
+                            "Music: " + (musicOn ? "On" : "Off") +
+                                    " Sound Effects: " + (soundOn ? "On" : "Off")
+                    );
+
+                    System.out.println("Music: " + (musicOn ? "On" : "Off"));
+                }
+
+                case S -> {
+                    soundOn = !soundOn;
+                    Configuration.soundOn = soundOn;
+                    configuration.saveConfiguration();
+
+                    soundStatus.setText(
+                            "Music: " + (musicOn ? "On" : "Off") +
+                                    " Sound Effects: " + (soundOn ? "On" : "Off")
+                    );
+
+                    System.out.println("Sound Effects: " + (soundOn ? "On" : "Off"));
                 }
 
                 default -> {}
