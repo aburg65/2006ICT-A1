@@ -49,6 +49,23 @@ public class GameModule {
 
     public List<Rectangle> landed = new ArrayList<>();
 
+    public int[][] getBoard() {
+
+        int[][] board = new int[rows][cols];
+
+        for (Rectangle r : landed) {
+
+            int x = (int)(r.getX() / cellSize);
+            int y = (int)(r.getY() / cellSize);
+
+            if (x >= 0 && x < cols && y >= 0 && y < rows) {
+                board[y][x] = 1;
+            }
+        }
+
+        return board;
+    }
+
     public HBox getGameModule() {
 
         Pane playField = new Pane();
@@ -205,6 +222,8 @@ public class GameModule {
             return;
         }
 
+        dy = fallSpeed;
+
         Blocks.TetrominoType blockType = nextBlock;
 
         nextBlock = generateNextBlock();
@@ -278,6 +297,12 @@ public class GameModule {
         };
 
         fallTimer.start();
+        if ((playerNumber == 1 && Configuration.player1Type.equals("AI"))
+                || (playerNumber == 2 && Configuration.player2Type.equals("AI"))) {
+
+            TetrisAI ai = new TetrisAI();
+            executeAIMove(ai.findBestMove(this));
+        }
     }
 
     public void landBlock(
@@ -345,6 +370,71 @@ public class GameModule {
         // play move-turn sound
         MusicPlayer sfx = new MusicPlayer();
         sfx.start("/audios/move-turn.wav", false);
+    }
+
+    public void executeAIMove(AIMove move) {
+
+        if (move == null || gameOver || isPaused) {
+            return;
+        }
+
+        final int[] rotationsLeft = {move.rotations};
+        final int[] targetColumn = {move.column};
+        final long[] lastAction = {0};
+
+        AnimationTimer aiTimer = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+
+                if (isPaused || gameOver) {
+                    return;
+                }
+
+                // Wait 150ms between each AI movement
+                if (now - lastAction[0] < 150_000_000) {
+                    return;
+                }
+
+                lastAction[0] = now;
+
+                // Rotate one step at a time
+                if (rotationsLeft[0] > 0) {
+                    rotateBlock(currentBlock, cellSize);
+                    rotationsLeft[0]--;
+                    return;
+                }
+
+                // Find current leftmost column
+                int currentX = Integer.MAX_VALUE;
+
+                for (Rectangle r : currentBlock) {
+                    currentX = Math.min(
+                            currentX,
+                            (int) (r.getX() / cellSize)
+                    );
+                }
+
+                // Move one square at a time
+                if (currentX < targetColumn[0]) {
+                    moveBlock(cellSize, 0);
+                    return;
+                }
+
+                if (currentX > targetColumn[0]) {
+                    moveBlock(-cellSize, 0);
+                    return;
+                }
+
+                // Finished positioning
+                stop();
+
+                // Increase fall speed to the same speed used by the human player
+                dy = 2;
+            }
+        };
+
+        aiTimer.start();
     }
 
     public void rotateBlock(

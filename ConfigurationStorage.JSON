@@ -2,9 +2,9 @@
   "extendOn" : true,
   "musicOn" : false,
   "soundOn" : false,
-  "horGridCells" : 10,
+  "horGridCells" : 12,
   "verGridCells" : 30,
   "initialLevel" : 1,
-  "player1Type" : "AI",
-  "player2Type" : "Human"
+  "player1Type" : "Human",
+  "player2Type" : "AI"
 }
