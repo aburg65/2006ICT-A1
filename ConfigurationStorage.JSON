@@ -5,6 +5,6 @@
   "horGridCells" : 10,
   "verGridCells" : 30,
   "initialLevel" : 1,
-  "player1Type" : "External",
-  "player2Type" : "AI"
+  "player1Type" : "AI",
+  "player2Type" : "Human"
 }
