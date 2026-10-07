@@ -2,26 +2,90 @@
   "players" : [ {
     "name" : "",
     "score" : 0,
-    "cols" : 12,
-    "rows" : 30,
-    "initialLevel" : 1,
-    "playerType" : "Human",
+    "cols" : 7,
+    "rows" : 25,
+    "initialLevel" : 5,
+    "playerType" : "External",
+    "extendOn" : false
+  }, {
+    "name" : "123",
+    "score" : 200,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "AI",
     "extendOn" : true
   }, {
-    "name" : "",
+    "name" : "12345",
     "score" : 0,
-    "cols" : 12,
-    "rows" : 30,
-    "initialLevel" : 1,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
     "playerType" : "External",
     "extendOn" : true
   }, {
-    "name" : "",
-    "score" : 0,
-    "cols" : 12,
-    "rows" : 30,
-    "initialLevel" : 1,
-    "playerType" : "Human",
-    "extendOn" : false
+    "name" : "abc",
+    "score" : 600,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "xzy",
+    "score" : 200,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "poi",
+    "score" : 100,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "lkj",
+    "score" : 200,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "player 8",
+    "score" : 300,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "9",
+    "score" : 200,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "qwe",
+    "score" : 100,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "rty",
+    "score" : 100,
+    "cols" : 8,
+    "rows" : 19,
+    "initialLevel" : 10,
+    "playerType" : "External",
+    "extendOn" : true
   } ]
 }

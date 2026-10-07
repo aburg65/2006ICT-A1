@@ -46,7 +46,7 @@ public class GameModule {
     public AnimationTimer fallTimer;
     public double fallSpeed = 0.05 + (currentLevel * 0.05);
     public double dy = fallSpeed;
-    public static int linesErased;
+    public int linesErased;
     public int score;
 
     public boolean isPaused = false;
