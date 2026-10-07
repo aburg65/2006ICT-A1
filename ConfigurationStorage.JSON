@@ -6,5 +6,5 @@
   "verGridCells" : 30,
   "initialLevel" : 1,
   "player1Type" : "Human",
-  "player2Type" : "AI"
+  "player2Type" : "External"
 }

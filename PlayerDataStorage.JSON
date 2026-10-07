@@ -79,5 +79,133 @@
     "initialLevel" : 1,
     "playerType" : "AI",
     "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "Human",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 12,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
   } ]
 }

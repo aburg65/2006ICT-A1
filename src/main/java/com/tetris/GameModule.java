@@ -49,6 +49,8 @@ public class GameModule {
 
     public List<Rectangle> landed = new ArrayList<>();
 
+    private TetrisClient tetrisClient = new TetrisClient();
+
     public int[][] getBoard() {
 
         int[][] board = new int[rows][cols];
@@ -64,6 +66,83 @@ public class GameModule {
         }
 
         return board;
+    }
+
+    public PureGame getPureGame() {
+
+        int[][] board = getBoard();
+
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxY = Integer.MIN_VALUE;
+
+        for (Rectangle r : currentBlock) {
+
+            int x = (int) (r.getX() / cellSize);
+            int y = (int) (r.getY() / cellSize);
+
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+        }
+
+        int[][] currentShape =
+                new int[maxY - minY + 1][maxX - minX + 1];
+
+        for (Rectangle r : currentBlock) {
+
+            int x = (int) (r.getX() / cellSize) - minX;
+            int y = (int) (r.getY() / cellSize) - minY;
+
+            currentShape[y][x] = 1;
+        }
+
+        Blocks next = Blocks.createBlock(nextBlock, cellSize);
+        Rectangle[] nextSquares = next.getSquares();
+
+        minX = Integer.MAX_VALUE;
+        minY = Integer.MAX_VALUE;
+        maxX = Integer.MIN_VALUE;
+        maxY = Integer.MIN_VALUE;
+
+        for (Rectangle r : nextSquares) {
+
+            int x = (int) (r.getX() / cellSize);
+            int y = (int) (r.getY() / cellSize);
+
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+        }
+
+        int[][] nextShape =
+                new int[maxY - minY + 1][maxX - minX + 1];
+
+        for (Rectangle r : nextSquares) {
+
+            int x = (int) (r.getX() / cellSize) - minX;
+            int y = (int) (r.getY() / cellSize) - minY;
+
+            nextShape[y][x] = 1;
+        }
+
+        return new PureGame(
+                cols,
+                rows,
+                board,
+                currentShape,
+                nextShape
+        );
+    }
+
+    public OpMove getServerMove() {
+
+        PureGame game = getPureGame();
+
+        return tetrisClient.getMove(game);
     }
 
     public HBox getGameModule() {
@@ -302,6 +381,15 @@ public class GameModule {
 
             TetrisAI ai = new TetrisAI();
             executeAIMove(ai.findBestMove(this));
+
+        } else if ((playerNumber == 1 && Configuration.player1Type.equals("External"))
+                || (playerNumber == 2 && Configuration.player2Type.equals("External"))) {
+
+            OpMove move = getServerMove();
+
+            if (move != null) {
+                executeAIMove(new AIMove(move.opX(), move.opRotate()));
+            }
         }
     }
 
