@@ -15,8 +15,15 @@ public class GameModule {
 
     public int playerNumber;
 
-    public GameModule(int playerNumber) {
+    private Blocks.TetrominoType[] sharedSequence;
+    private int sequenceIndex = 0;
+
+    public GameModule(
+            int playerNumber,
+            Blocks.TetrominoType[] sharedSequence) {
+
         this.playerNumber = playerNumber;
+        this.sharedSequence = sharedSequence;
     }
 
     public Label scoreLabel;
@@ -259,10 +266,16 @@ public class GameModule {
     }
 
     public Blocks.TetrominoType generateNextBlock() {
-        Blocks.TetrominoType[] types = Blocks.TetrominoType.values();
-        int n = (int)(Math.random() * types.length);
-        System.out.println("Next block decided: " + types[n]);
-        return types[n];
+        Blocks.TetrominoType block = sharedSequence[sequenceIndex];
+        sequenceIndex++;
+
+        if (sequenceIndex >= sharedSequence.length) {
+            sequenceIndex = 0;
+        }
+
+        System.out.println("Next block decided: " + block);
+
+        return block;
     }
 
     public void updateNextPreview(

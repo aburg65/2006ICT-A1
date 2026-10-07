@@ -28,7 +28,15 @@ public class Play {
         Configuration configuration = new Configuration();
         configuration.loadConfiguration();
 
-        GameModule player1 = new GameModule(1);
+        Blocks.TetrominoType[] sharedSequence = new Blocks.TetrominoType[100];
+
+        for (int i = 0; i < sharedSequence.length; i++) {
+            Blocks.TetrominoType[] types = Blocks.TetrominoType.values();
+            int n = (int)(Math.random() * types.length);
+            sharedSequence[i] = types[n];
+        }
+
+        GameModule player1 = new GameModule(1, sharedSequence);
         player2 = null;
 
         Label promptText = new Label("Are you sure?");
@@ -193,8 +201,7 @@ public class Play {
         HBox fullFullGame = new HBox(20, player1Game);
 
         if (Configuration.extendOn) {
-            player2 = new GameModule(2);
-
+            player2 = new GameModule(2, sharedSequence);
             HBox player2Game = player2.getGameModule();
 
             fullFullGame.getChildren().add(player2Game);

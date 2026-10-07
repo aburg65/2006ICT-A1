@@ -65,3 +65,5 @@ public class Splash extends Application {
         launch(args);
     }
 }
+
+// java -jar "C:\Users\ashle\OneDrive\Documents\Uni\Y3T2\OOSD\Assignment\A2\Demo\TetrisServer.jar"

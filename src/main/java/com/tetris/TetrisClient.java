@@ -24,18 +24,14 @@ public class TetrisClient {
 
             String jsonGameState = mapper.writeValueAsString(game);
             System.out.println(jsonGameState);
-
             out.println(jsonGameState);
-
             String response = in.readLine();
-
             OpMove move = mapper.readValue(response, OpMove.class);
 
             System.out.println(
                     "Server move: X=" + move.opX()
                             + ", rotations=" + move.opRotate()
             );
-
             return move;
 
         } catch (IOException e) {
