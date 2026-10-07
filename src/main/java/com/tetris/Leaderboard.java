@@ -44,11 +44,11 @@ public class Leaderboard {
                 );
             }
 
-            Arrays.sort(players, (a, b) -> Integer.compare(b.score(), a.score()));
-
-            if (players.length > 10) {
-                players = Arrays.copyOf(players, 10);
-            }
+            // STREAM AND COMPARATOR
+            players = Arrays.stream(players)
+                    .sorted((a, b) -> Integer.compare(b.score(), a.score()))
+                    .limit(10)
+                    .toArray(Player[]::new);
 
             return players;
 

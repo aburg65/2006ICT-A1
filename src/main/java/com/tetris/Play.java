@@ -46,6 +46,7 @@ public class Play {
             Button continueButton = new Button("Continue");
             continueButton.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
+            // LAMBDA EXAMPLE
             continueButton.setOnAction(event -> {
 
                 String player1Name = nameField.getText();

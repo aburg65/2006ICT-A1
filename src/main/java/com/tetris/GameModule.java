@@ -33,7 +33,7 @@ public class GameModule {
     int fieldHeight = rows * cellSize;
 
     public Rectangle[] currentBlock;
-    public int nextBlock;
+    public Blocks.TetrominoType nextBlock;
     public StackPane nextPreviewPane;
 
     public AnimationTimer fallTimer;
@@ -47,7 +47,7 @@ public class GameModule {
 
     public Label pauseLabel;
 
-    public final List<Rectangle> landed = new ArrayList<>();
+    public List<Rectangle> landed = new ArrayList<>();
 
     public HBox getGameModule() {
 
@@ -163,18 +163,16 @@ public class GameModule {
         return false;
     }
 
-    public int generateNextBlock() {
-
-        int n = (int)(Math.random() * 7) + 1;
-
-        System.out.println("Next block decided: " + n);
-
-        return n;
+    public Blocks.TetrominoType generateNextBlock() {
+        Blocks.TetrominoType[] types = Blocks.TetrominoType.values();
+        int n = (int)(Math.random() * types.length);
+        System.out.println("Next block decided: " + types[n]);
+        return types[n];
     }
 
     public void updateNextPreview(
             StackPane previewPane,
-            int nextBlock,
+            Blocks.TetrominoType nextBlock,
             int cellSize) {
 
         previewPane.getChildren().clear();
@@ -204,7 +202,7 @@ public class GameModule {
             return;
         }
 
-        int blockType = nextBlock;
+        Blocks.TetrominoType blockType = nextBlock;
 
         nextBlock = generateNextBlock();
 
@@ -466,8 +464,7 @@ public class GameModule {
                         "Score: " + score
                 );
 
-                List<Rectangle> toRemove =
-                        new ArrayList<>();
+                List<Rectangle> toRemove = new ArrayList<>();
 
                 for (Rectangle r : landed) {
 

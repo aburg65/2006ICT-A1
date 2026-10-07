@@ -5,6 +5,9 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Blocks {
 
+    // ENUM
+    public enum TetrominoType {I, O, T, S, Z, J, L}
+
     protected Rectangle[] squares;
 
     // Shared helper for all blocks
@@ -28,17 +31,16 @@ public abstract class Blocks {
         void rotate();
     }
 
-    // Factory method
-    public static Blocks createBlock(int type, int cellSize) {
+    // USE ENUM
+    public static Blocks createBlock(TetrominoType type, int cellSize) {
         return switch (type) {
-            case 1 -> new IBlock(cellSize);
-            case 2 -> new JBlock(cellSize);
-            case 3 -> new LBlock(cellSize);
-            case 4 -> new OBlock(cellSize);
-            case 5 -> new SBlock(cellSize);
-            case 6 -> new TBlock(cellSize);
-            case 7 -> new ZBlock(cellSize);
-            default -> new IBlock(cellSize);
+            case I -> new IBlock(cellSize);
+            case J -> new JBlock(cellSize);
+            case L -> new LBlock(cellSize);
+            case O -> new OBlock(cellSize);
+            case S -> new SBlock(cellSize);
+            case T -> new TBlock(cellSize);
+            case Z -> new ZBlock(cellSize);
         };
     }
 

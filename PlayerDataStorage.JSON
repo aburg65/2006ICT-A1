@@ -119,5 +119,53 @@
     "initialLevel" : 1,
     "playerType" : "Human",
     "extendOn" : false
+  }, {
+    "name" : "ad",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "df",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
+  }, {
+    "name" : "sad",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "External",
+    "extendOn" : true
+  }, {
+    "name" : "",
+    "score" : 0,
+    "cols" : 15,
+    "rows" : 30,
+    "initialLevel" : 1,
+    "playerType" : "AI",
+    "extendOn" : true
   } ]
 }
