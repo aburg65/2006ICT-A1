@@ -17,6 +17,22 @@ import java.io.IOException;
 
 public class Configuration {
 
+    private static volatile Configuration instance;
+
+    Configuration() {
+    }
+
+    public static Configuration getInstance() {
+        if (instance == null) {
+            synchronized (Configuration.class) {
+                if (instance == null) {
+                    instance = new Configuration();
+                }
+            }
+        }
+        return instance;
+    }
+
     public static boolean extendOn = false;
     public static boolean musicOn = true;
     public static boolean soundOn = true;

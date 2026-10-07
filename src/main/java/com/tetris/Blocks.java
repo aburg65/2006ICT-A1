@@ -5,12 +5,10 @@ import javafx.scene.shape.Rectangle;
 
 public abstract class Blocks {
 
-    // ENUM
     public enum TetrominoType {I, O, T, S, Z, J, L}
 
     protected Rectangle[] squares;
 
-    // Shared helper for all blocks
     protected Rectangle square(int x, int y, int cellSize, Color color) {
         Rectangle r = new Rectangle(cellSize, cellSize, color);
         r.setX(x * cellSize);
@@ -31,7 +29,6 @@ public abstract class Blocks {
         void rotate();
     }
 
-    // USE ENUM
     public static Blocks createBlock(TetrominoType type, int cellSize) {
         return switch (type) {
             case I -> new IBlock(cellSize);
@@ -66,7 +63,6 @@ public abstract class Blocks {
 
         @Override
         public void rotate() {
-            // Rotation logic can be added later
         }
     }
 
