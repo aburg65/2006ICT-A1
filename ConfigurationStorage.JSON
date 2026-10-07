@@ -1,10 +1,10 @@
 {
   "extendOn" : true,
   "musicOn" : false,
-  "soundOn" : false,
+  "soundOn" : true,
   "horGridCells" : 12,
   "verGridCells" : 30,
   "initialLevel" : 1,
   "player1Type" : "Human",
-  "player2Type" : "External"
+  "player2Type" : "Human"
 }

@@ -41,6 +41,7 @@ public class Play {
         }
 
         GameModule player1 = new GameModule(1, sharedSequence);
+        GameFacade gameFacade = new GameFacade(player1);
         player2 = null;
 
         Label promptText = new Label("Are you sure?");
@@ -246,22 +247,18 @@ public class Play {
 
                 case COMMA -> {
                     if (!player1.isPaused) {
-                        player1.moveBlock(-player1.cellSize, 0);
+                        gameFacade.moveLeft();
                     }
                 }
 
                 case PERIOD -> {
                     if (!player1.isPaused) {
-                        player1.moveBlock(player1.cellSize, 0);
-                    }
+                        gameFacade.moveRight();                    }
                 }
 
                 case L -> {
                     if (!player1.isPaused) {
-                        player1.rotateBlock(
-                                player1.currentBlock,
-                                player1.cellSize
-                        );
+                        gameFacade.rotate();
                     }
                 }
 
@@ -299,7 +296,7 @@ public class Play {
                 }
 
                 case P -> {
-                    player1.togglePause();
+                    gameFacade.pause();
 
                     if (player2 != null) {
                         player2.togglePause();
@@ -344,7 +341,7 @@ public class Play {
 
         scene.setOnKeyReleased(e -> {
 
-            if (e.getCode() == javafx.scene.input.KeyCode.S) {
+            if (e.getCode() == javafx.scene.input.KeyCode.SPACE) {
                 player1.dy = player1.fallSpeed;
             }
 
